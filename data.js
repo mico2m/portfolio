@@ -274,7 +274,7 @@ window.PORTFOLIO = {
         "Documental"
       ],
       "year": 2026,
-      "date": "2026-11-15",
+      "date": "2026-11-14",
       "duration": "",
       "orientation": "horizontal",
       "video": "https://www.youtube.com/watch?v=Mm4df8hB9I8&t=3s",
