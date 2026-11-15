@@ -362,7 +362,7 @@ window.PORTFOLIO = {
       ],
       "year": 2025,
       "duration": "0:43",
-      "orientation": "vertical",
+      "orientation": "horizontal",
       "video": "https://drive.google.com/file/d/1Gbe4zEbhvW3FzXTv_BrXCfHYka6yUWis/view?usp=drive_link",
       "cover": "covers/presentacion-bajista-ff2ef1de-m.webp",
       "tools": [
