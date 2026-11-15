@@ -1,0 +1,6 @@
+CÓMO EDITAR TU PORTFOLIO
+- Textos, años, categorías, links, descripciones, "featured": abrí data.js, cambiá y guardá.
+- Portadas nuevas: ponelas en la carpeta covers/ y escribí su ruta en "cover" (ej: "covers/mi-video.webp").
+- Video nuevo: copiá un bloque { ... } de "videos" en data.js y cambiá los datos.
+- Con GitHub conectado a Netlify: editás data.js en github.com (lápiz > Commit) y en ~30 segundos está publicado.
+- Sin GitHub: arrastrá la carpeta completa a Netlify > Deploys.
