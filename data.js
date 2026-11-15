@@ -145,7 +145,7 @@ window.PORTFOLIO = {
       "title": "HAXBALL CON AMIGOS",
       "client": "",
       "category": [
-        "Gameplay"
+        "Gameplays"
       ],
       "year": 2022,
       "duration": "4:47",
@@ -155,13 +155,13 @@ window.PORTFOLIO = {
       "tools": [
         "premiere"
       ],
-      "description": "Un gameplay con amigos del juego HaxBall, un juego multijugador de navegador."
+      "description": "Un Gameplays con amigos del juego HaxBall, un juego multijugador de navegador."
     },
     {
       "title": "SUPER MARIO 64 MULTIJUGADOR",
       "client": "",
       "category": [
-        "Gameplay"
+        "Gameplays"
       ],
       "year": 2024,
       "duration": "1:11",
@@ -177,7 +177,7 @@ window.PORTFOLIO = {
       "title": "TERROR NAVIDEÑO | GARRYS MOD CON AMIGOS",
       "client": "",
       "category": [
-        "Gameplay"
+        "Gameplays"
       ],
       "year": 2024,
       "duration": "8:48",
@@ -193,7 +193,7 @@ window.PORTFOLIO = {
       "title": "EL POLICIA, EL ALBAÑIL Y EL COLECTIVERO | GTA V ONLINE",
       "client": "",
       "category": [
-        "Gameplay"
+        "Gameplays"
       ],
       "year": 2023,
       "duration": "5:55",
