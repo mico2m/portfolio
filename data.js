@@ -358,7 +358,7 @@ window.PORTFOLIO = {
       "title": "PRESENTACIÓN BAJISTA",
       "client": "Mala Muerte",
       "category": [
-        "Reels"
+        "Otros"
       ],
       "year": 2025,
       "duration": "0:43",
