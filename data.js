@@ -301,7 +301,7 @@ window.PORTFOLIO = {
       "date": "2025-10-22",
       "duration": "1:01",
       "orientation": "horizontal",
-      "video": "https://drive.google.com/file/d/13chvRVisqWckmB2JapljdoKS-NDxYAFL/view?usp=sharing",
+      "video": "https://photos.app.goo.gl/zWUvqvXtCDhH6VLi8",
       "cover": "covers/en-la-boca-del-lobo-presentacion-e0a7246d-m.webp",
       "tools": [
         "premiere",
