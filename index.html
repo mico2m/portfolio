@@ -263,15 +263,6 @@ body.edit .fab{display:block}
 .minfo>:nth-child(4){animation-delay:.34s}
 .minfo>:nth-child(5){animation-delay:.4s}
 .minfo>:nth-child(6){animation-delay:.46s}
-/* ---------- Inclinación con el giroscopio (celulares): gira toda la tarjeta, con su cuadrado de vidrio ---------- */
-.tilt .card{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); will-change:transform;
-  transition:opacity .9s var(--ease) var(--d,0s),translate .9s var(--ease) var(--d,0s),scale .9s var(--ease) var(--d,0s)} /* el giro no lleva demora: lo suaviza el script */
-.tilt .card:hover{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-6px) scale(1.012)} /* mantiene el levantado al tocar */
-.tiltbtn{position:fixed; left:50%; bottom:calc(18px + env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:45; display:flex; align-items:center; gap:4px;
-  padding:4px 5px 4px 6px; border-radius:999px; white-space:nowrap; animation:rise .8s var(--ease) 1.2s both}
-.tiltbtn button{font:inherit; font-size:14px; color:var(--text); background:none; border:0; cursor:pointer; padding:9px 10px}
-.tiltbtn .x{width:32px; height:32px; padding:0; border-radius:50%; background:rgba(255,255,255,.12); font-size:13px}
-
 /* ---------- Portadas: borroso diminuto → versión chica → versión grande ---------- */
 .thumb,.sl{background-size:cover; background-position:center}
 .thumb img.fade{opacity:0; transition:opacity .5s var(--ease),transform .5s}
@@ -863,63 +854,6 @@ let layoutRaf = 0; // varios avisos de cambio de tamaño seguidos se juntan en u
 const layoutSoon = () => { if (!layoutRaf) layoutRaf = requestAnimationFrame(() => { layoutRaf = 0; layoutGrid(); }); };
 if ("ResizeObserver" in window) { const ro = new ResizeObserver(layoutSoon); ro.observe($("#grid")); ro.observe($("#fgrid")); }
 else addEventListener("resize", layoutSoon);
-
-/* ---------- Inclinación con el giroscopio: las tarjetas giran levemente al mover el celular ---------- */
-(function () {
-  if (typeof DeviceOrientationEvent === "undefined" || !matchMedia("(hover: none) and (pointer: coarse)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const MAX = 6, K = .3; // giro máximo (grados) y sensibilidad
-  let bB = null, bG = null, tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, on = false, got = false, box = null;
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  const angle = () => (screen.orientation && typeof screen.orientation.angle === "number") ? screen.orientation.angle : (window.orientation || 0);
-
-  const apply = () => {
-    const rx = cx.toFixed(2) + "deg", ry = cy.toFixed(2) + "deg";
-    document.querySelectorAll(".card").forEach(c => { c.style.setProperty("--rx", rx); c.style.setProperty("--ry", ry); });
-  };
-  const frame = () => { // suaviza el movimiento: se acerca al valor del sensor un poco en cada cuadro
-    raf = 0;
-    cx += (tx - cx) * .12; cy += (ty - cy) * .12;
-    apply();
-    if (Math.abs(tx - cx) > .01 || Math.abs(ty - cy) > .01) raf = requestAnimationFrame(frame);
-  };
-  const onOri = e => {
-    if (e.beta == null || e.gamma == null) return;
-    if (!got) { got = true; document.documentElement.classList.add("tilt"); } // hay sensor funcionando: no hace falta pedir permiso
-    if (box) { box.remove(); box = null; }
-    if (angle() !== 0) { tx = ty = 0; } // solo en vertical
-    else {
-      if (bB === null) { bB = e.beta; bG = e.gamma; }
-      bB += (e.beta - bB) * .015; bG += (e.gamma - bG) * .015; // la posición "neutra" sigue despacio a cómo sostenés el celular
-      ty = clamp((e.gamma - bG) * K, -MAX, MAX);
-      tx = clamp(-(e.beta - bB) * K, -MAX, MAX);
-    }
-    if (!raf) raf = requestAnimationFrame(frame);
-  };
-  const mo = new MutationObserver(() => { if (got) apply(); }); // las tarjetas nuevas (al cambiar de sección) nacen ya inclinadas
-  const start = () => {
-    if (on) return; on = true;
-    addEventListener("deviceorientation", onOri, { passive: true });
-    ["#grid", "#fgrid"].forEach(sel => { const el = $(sel); if (el) mo.observe(el, { childList: true }); });
-  };
-
-  // iPhone: Safari exige un permiso que solo se puede pedir después de que la persona toca algo.
-  // Android y otros navegadores mandan los datos sin pedir nada, así que ahí no se muestra ningún botón.
-  const get = () => { try { return localStorage.getItem("tilt"); } catch (e) { return null; } };
-  const put = v => { try { localStorage.setItem("tilt", v); } catch (e) {} };
-  const pref = get();
-  if (pref === "0") return; // dijo que no
-  start();                  // se queda escuchando; si el sensor responde solo, listo
-  if (typeof DeviceOrientationEvent.requestPermission !== "function") return;
-  const ask = () => { if (got) return; DeviceOrientationEvent.requestPermission().then(r => { if (r === "granted") put("1"); else put("0"); }).catch(() => {}); };
-  if (pref === "1") { addEventListener("click", ask, { once: true, capture: true }); return; } // ya lo aceptó antes: se reactiva con el primer toque
-  setTimeout(() => {
-    if (got) return;
-    box = h("div", { class: "tiltbtn glass" },
-      h("button", { type: "button", onclick: () => { const b = box; box = null; b.remove(); ask(); } }, "✨ Activar inclinación"),
-      h("button", { type: "button", class: "x", "aria-label": "No, gracias", onclick: () => { const b = box; box = null; b.remove(); put("0"); } }, "✕"));
-    document.body.append(box);
-  }, 1200);
-})();
 
 renderFilters(); renderGrid();
 </script>
