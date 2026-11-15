@@ -268,7 +268,7 @@ window.PORTFOLIO = {
       "lqip": "data:image/webp;base64,UklGRvQAAABXRUJQVlA4IOgAAACwBgCdASoYACsAPwF4slSrJyQjJWmZYCAJZwDKBbgR/IuJRG8g9kLjo4Vz8jXv2Po1kpmqoxsZhnoz2G+OBAD+wCK49/1EmyPXBhcvbsvp3pg2j7JW7k/Srf3+Q921+NZDLc9cLqGa8Z1Z6ilo6QufYVSO3V77wA+N5vkHDFgkeOj4liJHhfi1PsN/MIAMOtST7hPAmOfdKvlL4jDIdJMvT34Ff1XM7HP23j5Gmb8q/9JpAmEVOlCmA6/DhfeXVQCAYHWHyKUQ2jSs0Clt6z5DuVsX5ZN7DOHJcaPPi5YFWyC9yEjTAAAA"
     },
     {
-      "title": "EL HOMBRE DE LAS MIL VOCES | MINIBIO DE FERNANDO PEÑA",
+      "title": "FERNANDO PEÑA, EL HOMBRE DE LAS MIL VOCES | MINIBIOGRAFÍA",
       "client": "ETER Escuela de Comunicación",
       "category": [
         "Documental"
@@ -276,7 +276,7 @@ window.PORTFOLIO = {
       "year": 2026,
       "duration": "",
       "orientation": "horizontal",
-      "video": "",
+      "video": "https://www.youtube.com/watch?v=Mm4df8hB9I8&t=3s",
       "cover": "covers/el-hombre-de-las-mil-voces-minibio-d-29d8d2fb-m.webp",
       "tools": [
         "premiere",
