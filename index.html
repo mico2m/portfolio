@@ -507,6 +507,7 @@ const showInitials = () => $("#avatar").replaceChildren(h("div", { class: "avata
 if (CONFIG.photo) $("#avatar").append(h("div", { class: "avatar-in" }, h("img", { src: CONFIG.photo, alt: CONFIG.name, onerror: showInitials })));
 else showInitials();
 $("#footer").textContent = `© ${new Date().getFullYear()} ${CONFIG.name}`;
+if (!CONFIG.links.length) $("nav").remove(); // sin enlaces en el menú, no se muestra la barra de arriba
 CONFIG.links.forEach(l => $("#links").append(h("a", { href: l.url, target: /^https?:/.test(l.url) ? "_blank" : null, rel: "noopener" }, l.label)));
 
 const SOCIALS = {

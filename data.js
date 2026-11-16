@@ -14,12 +14,7 @@ window.PORTFOLIO = {
     "clients": [],
     "title": "Editor de video",
     "tagline": "Adaptado de cualquier tipo de contenido.",
-    "links": [
-      {
-        "label": "Trabajos",
-        "url": "#filters"
-      }
-    ],
+    "links": [],
     "socials": [
       {
         "type": "instagram",
