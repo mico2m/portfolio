@@ -377,6 +377,42 @@ window.PORTFOLIO = {
       "coverSmall": "covers/presentacion-bajista-ff2ef1de-s.webp",
       "coverSmallW": 180,
       "lqip": "data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAADQBQCdASoYACsAPwFssFErJaSiqrgMAWAgCWcAx+Qen72LYLeDy19mO9xioScD032p8+dRJ2AUAP70OB0gn26G0d/3+20oreXsE4bbxcYSiYQlZnt956Wy5dLv4v0USFMHG2N9hI9tZRWPkzew3yyHNQPzXHtXyh+U43kYzjTP+QWgGtQng8CGFk9fQvE9EYNo6ePdLL2uBV7x24NfKFXJL/ZLzgpSVest2R+guqHx6JvCYkLfB2dlfYTG8/chEsAAAA=="
+    },
+    {
+      "title": "NO FUIMO A TWITCH",
+      "client": "ARTIK(Youtuber)",
+      "category": [
+        "Humor"
+      ],
+      "year": 2020,
+      "date": "2020-10-28",
+      "duration": "4:50",
+      "orientation": "horizontal",
+      "video": "https://www.youtube.com/watch?v=nz58pdvfSk4",
+      "cover": "",
+      "tools": [
+        "premiere",
+        "photoshop"
+      ],
+      "description": ""
+    },
+    {
+      "title": "24 HORAS SIN DORMIR EN 6 HORAS",
+      "client": "ARTIK(Youtuber)",
+      "category": [
+        "Humor"
+      ],
+      "year": 1,
+      "date": "0001-08-10",
+      "duration": "8:43",
+      "orientation": "horizontal",
+      "video": "https://www.youtube.com/watch?v=qcVP6xSmj34",
+      "cover": "",
+      "tools": [
+        "premiere",
+        "photoshop"
+      ],
+      "description": ""
     }
   ],
   "tools": {}
