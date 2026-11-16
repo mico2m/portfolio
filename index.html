@@ -238,6 +238,19 @@ body.edit .fab{display:block}
 @keyframes rise{from{opacity:0; transform:translateY(26px) scale(.97); filter:blur(10px)}}
 @keyframes drop{from{opacity:0; transform:translateY(-30px)}}
 @keyframes bob{to{translate:0 -9px}}
+/* foto de perfil: al tocarla rebota (salta, se aplasta y se estira) */
+.avatar.tap{cursor:pointer; -webkit-tap-highlight-color:transparent}
+.avatar.boing{animation:rise 1s var(--ease) .1s both, bob 6s ease-in-out 1.2s infinite alternate, boing .95s cubic-bezier(.3,.7,.4,1)}
+@keyframes boing{
+  0%{transform:scale(1,1)}
+  12%{transform:translateY(4px) scale(1.14,.84)}
+  30%{transform:translateY(-38px) scale(.9,1.12)}
+  48%{transform:translateY(0) scale(1.1,.9)}
+  62%{transform:translateY(-14px) scale(.97,1.04)}
+  78%{transform:translateY(0) scale(1.04,.96)}
+  90%{transform:translateY(-4px) scale(1)}
+  100%{transform:translateY(0) scale(1,1)}
+}
 @keyframes fadeout{to{opacity:0}}
 @keyframes popout{to{transform:translateY(16px) scale(.97); opacity:0}}
 .rise{animation:rise 1s var(--ease) both; animation-delay:var(--d,0s)}
@@ -878,7 +891,12 @@ else addEventListener("resize", layoutSoon);
   const SFX = {
     chip: () => { tone(520, 760, .09, .05, "sine"); tone(1040, 1400, .07, .018, "triangle", .005); },          // toque de sección: "tic" suave
     open: () => { tone(523, 784, .34, .05, "sine"); tone(784, 1175, .4, .03, "sine", .045); tone(1568, 1568, .2, .01, "triangle", .06); }, // portada: campanita de vidrio
-    close: () => { tone(620, 380, .13, .04, "sine"); }                                                          // cerrar: baja suave
+    close: () => { tone(620, 380, .13, .04, "sine"); },                                                         // cerrar: baja suave
+    /* foto de perfil: «¡Hey! … ¡Listen!» de hada — un chillido agudo que sube y un aleteo de tres notas (sonido original, sintetizado) */
+    hey: () => {
+      tone(1500, 2250, .15, .05, "sine"); tone(3000, 4500, .13, .012, "triangle", .005); tone(1500, 2250, .15, .02, "sine", .03);
+      tone(1760, 2100, .09, .045, "sine", .34); tone(1480, 1760, .09, .045, "sine", .45); tone(1175, 1760, .2, .05, "sine", .56); tone(2350, 3520, .18, .012, "triangle", .57);
+    }
   };
   window.sfx = name => {
     if (!on || !AC) return;
@@ -886,6 +904,12 @@ else addEventListener("resize", layoutSoon);
   };
   btn.addEventListener("click", () => { on = !on; try { localStorage.setItem(key, on ? "1" : "0"); } catch (e) {} paint(); if (on) sfx("chip"); });
   paint();
+  const av = $("#avatar");
+  av.classList.add("tap"); av.setAttribute("role", "button"); av.tabIndex = 0; av.setAttribute("aria-label", "Saludar");
+  const hey = () => { av.classList.remove("boing"); void av.offsetWidth; av.classList.add("boing"); sfx("hey"); };
+  av.addEventListener("click", hey);
+  av.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hey(); } });
+  av.addEventListener("animationend", e => { if (e.animationName === "boing") av.classList.remove("boing"); });
   document.addEventListener("click", e => {
     const t = e.target; if (!t.closest || t.closest("#snd")) return;
     if (t.closest(".chip")) sfx("chip");
