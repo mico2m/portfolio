@@ -6,3 +6,6 @@
   Cache-Control: public, max-age=0, must-revalidate
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
+/admin/*
+  X-Robots-Tag: noindex
+  Cache-Control: public, max-age=0, must-revalidate
