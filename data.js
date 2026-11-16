@@ -13,6 +13,14 @@ window.PORTFOLIO = {
     "clientGroups": true,
     "clients": [],
     "title": "Editor de video",
+    "also": [
+      {
+        "label": "Modelado y Animación 3D",
+        "url": "3d",
+        "desc": "Personajes, escenas y animaciones"
+      }
+    ],
+    "alsoTitle": "También hago esto",
     "tagline": "Adaptado de cualquier tipo de contenido.",
     "links": [],
     "socials": [
@@ -35,14 +43,6 @@ window.PORTFOLIO = {
         "type": "youtube",
         "label": "mirkuwu_yt",
         "url": "https://www.youtube.com/@mirkuwu_yt"
-      }
-    ],
-    "alsoTitle": "También hago esto",
-    "also": [
-      {
-        "label": "Modelado y Animación 3D",
-        "url": "3d",
-        "desc": "Personajes, escenas y animaciones"
       }
     ]
   },
