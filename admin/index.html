@@ -624,10 +624,34 @@ async function shrinkCovers() {
   render(); changed();
   toast("Listo: " + n + (n === 1 ? " portada optimizada" : " portadas optimizadas") + " (" + fmt(before) + " → " + fmt(after) + ").");
 }
+/* orden de la lista de videos (solo cambia cómo se ve acá; en el sitio las portadas se ordenan por año solas) */
+const SORTS = [["fecha", "Fecha: más nuevos primero"], ["fechaAsc", "Fecha: más viejos primero"], ["cliente", "Cliente (A–Z)"], ["anio", "Año"], ["tipo", "Tipo / categoría"], ["titulo", "Título (A–Z)"], ["destacados", "Destacados primero"], ["manual", "Mi orden manual"]];
+let sortMode = (() => { try { const m = localStorage.getItem("portfolio-admin-sort"); return SORTS.some(s => s[0] === m) ? m : "fecha"; } catch (e) { return "fecha"; } })();
+const setSortMode = m => { sortMode = m; try { localStorage.setItem("portfolio-admin-sort", m); } catch (e) {} };
+const dateKey = v => hasFull(v) ? v.date : v.year ? String(v.year).padStart(4, "0") + "-00-00" : "";
+const txt = (a, b) => String(a).localeCompare(String(b), "es", { sensitivity: "base", numeric: true });
+const emptyLast = (a, b, f) => !a && !b ? 0 : !a ? 1 : !b ? -1 : f(a, b);
+function sortedVideos() {
+  const L = S.videos.slice(), byDate = (x, y) => emptyLast(dateKey(x), dateKey(y), (a, b) => txt(b, a)) || txt(x.title, y.title);
+  const firstCat = v => parseCats(v.category)[0] || "";
+  const by = {
+    fecha: byDate,
+    fechaAsc: (x, y) => emptyLast(dateKey(x), dateKey(y), txt) || txt(x.title, y.title),
+    cliente: (x, y) => emptyLast(x.client.trim(), y.client.trim(), txt) || byDate(x, y),
+    anio: (x, y) => emptyLast(x.year, y.year, (a, b) => b - a) || byDate(x, y),
+    tipo: (x, y) => emptyLast(firstCat(x), firstCat(y), txt) || byDate(x, y),
+    titulo: (x, y) => emptyLast(x.title.trim(), y.title.trim(), txt),
+    destacados: (x, y) => (y.featured ? 1 : 0) - (x.featured ? 1 : 0) || byDate(x, y)
+  }[sortMode];
+  return by ? L.sort(by) : L;
+}
 function secVideos() {
   const plus = h("button", { type: "button", class: "vtile vplus", title: "Agregar un video nuevo", onclick: addVideo }, h("span", { class: "plus" }, "+"), h("small", {}, "Agregar video"));
+  const sel = h("select", { "aria-label": "Ordenar videos por", onchange: () => { setSortMode(sel.value); render(); } }, ...SORTS.map(([k, l]) => h("option", { value: k }, l)));
+  sel.value = sortMode;
   return sec("Tus videos", "Tocá una portada para editar su información. Cada video necesita al menos un título para aparecer en el portfolio.",
-    h("div", { class: "add", style: "margin:4px 0 12px" }, btn("⚡ Optimizar portadas guardadas", shrinkCovers)), h("div", { class: "vgrid" }, plus, ...S.videos.map(videoTile)));
+    h("div", { class: "add", style: "margin:4px 0 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center" }, h("label", { style: "font-size:13px;opacity:.8" }, "Ordenar por"), h("div", { style: "flex:1;min-width:170px" }, sel), btn("⚡ Optimizar portadas guardadas", shrinkCovers)),
+    h("div", { class: "vgrid" }, plus, ...sortedVideos().map(videoTile)));
 }
 function videoEditor(v) {
   const i = S.videos.indexOf(v);
@@ -637,7 +661,7 @@ function videoEditor(v) {
   const ttl = h("b", {}), sub = h("small", {});
   const setHead = () => { ttl.textContent = (v.featured ? "★ " : "") + (v.title.trim() || "Video sin título"); sub.textContent = [v.client, dateLabel(v), v.duration].filter(Boolean).join(" · ") || (v.title.trim() ? "" : "Solo se exporta si tiene título"); };
   setHead();
-  const move = d => { const j = i + d; if (j < 0 || j >= S.videos.length) return; [S.videos[i], S.videos[j]] = [S.videos[j], S.videos[i]]; render(); changed(); };
+  const move = d => { const j = i + d; if (j < 0 || j >= S.videos.length) return; [S.videos[i], S.videos[j]] = [S.videos[j], S.videos[i]]; setSortMode("manual"); render(); changed(); };
   const dup = () => { const c = { ...JSON.parse(JSON.stringify(v)), _id: uid(), title: v.title ? v.title + " (copia)" : "" }; S.videos.splice(i + 1, 0, c); changed(); openEditor(c._id); };
   const del = () => { if (!confirm("¿Eliminar este video?")) return; S.videos.splice(i, 1); changed(); closeEditor(); };
   const body = h("div", { class: "vbody" });
