@@ -54,17 +54,17 @@ window.PORTFOLIO = {
       "duration": "01:08",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247110938?share=copy&fl=sv&fe=ci#t=0",
-      "cover": "covers/videomatch-vs-cqc-181ae2a7-m.webp",
+      "cover": "covers/videomatch-vs-cqc-33a4bf8a-m.webp",
       "tools": [
         "blender",
         "premiere"
       ],
       "description": "",
       "featured": true,
-      "coverW": 800,
-      "coverSmall": "covers/videomatch-vs-cqc-181ae2a7-s.webp",
-      "coverSmallW": 400,
-      "lqip": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAAAQBgCdASoYABgAPwFwrFErJiQiqA1RYCAJbACdMt7CvoArXgUzQ5VQXpNCbEkF/Xsc/tuzC37EZAAA/bK/2MstcuBNrUkh3+SYlNY4sPYwJH2C5mxkdkWjE6Yhvi26JSLH3x0b/XsqrSEvI4FkYt7mNXtqzvX/4pPhG4trEbujojg4Gu01fb5CUQ/1Q80qcqu/tShmOPf7y6LACq9Wdzwfr/7IB33+cDHN7r4xOyej08L8p/nprEpuzl2o64qveG7XMFlEdCvxErHPk+rOeMVXyvsjLY58yNirAkhA8ndcB5RdGmLS6C142o3Ph+LpLd8s8z84UmORe7aJ8r2UwMV9+vgWcXoIknaHd5zy2HzYbbmzY/xC0c1NRM2B2UNEJztHqjMAAAA="
+      "coverW": 600,
+      "coverSmall": "covers/videomatch-vs-cqc-33a4bf8a-s.webp",
+      "coverSmallW": 300,
+      "lqip": "data:image/webp;base64,UklGRi4BAABXRUJQVlA4ICIBAABQBgCdASoYABgAPwFyrFGrJqOiqA1RYCAJbACdMoMqm0XvFADGQ5JKiZwg5WHOOLPWAuUgLERrwtC9gAD9sr/YxHvHQh1xqP6xhZp0hkpNx1O4RiEM4o+cMWZD4pgAyw39ZHZLn+WOACsoY+Iep9+QoS6g9usd6//agSoDtHPwK1UrS3vm/Q6Ti2Tha0gOCRWj3XXl5g3drtcIrS5B0zmDzb9kVwfT2DDxEKz2USv0upQ7uNpJFqMD7d9TceKr4mNHe9JObqIaOfJ0Whut3Hp5v7v4I0D3EJ4AH0AWybxfpdCTK2bpl1smIpGhLbUlnSZUcS5fE2i0BEm2HjQFkStfn8OMWbbVYRqaPq9F7CphOrGmVk6FHuR8xIC1k3tUgFAAAA=="
     },
     {
       "title": "SUBTE LINEA D",
@@ -77,16 +77,16 @@ window.PORTFOLIO = {
       "duration": "00:05",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247111539?share=copy&fl=sv&fe=ci",
-      "cover": "covers/subte-linea-d-b11ea804-m.webp",
+      "cover": "covers/subte-linea-d-4011ac0b-m.webp",
       "tools": [
         "blender"
       ],
       "description": "",
       "featured": true,
-      "coverW": 800,
-      "coverSmall": "covers/subte-linea-d-b11ea804-s.webp",
-      "coverSmallW": 400,
-      "lqip": "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABwBQCdASoYABgAPwF2slOrJySiqAgBYCAJaQDNSYyed78+QP3RdoRYyG4Z5ledRxEii32AAP5yZCbqSEwUKRzOq+HlV/Y0B7tWhBsf51bMkguNbRh1iuEU7Z+EcWChXii2LlGQoZKarfpmHN2DYXHVRkh0Y/o5qHFSGyRrD5NtEy29e2NohCW4mScD1JRtaupGOS0efeJqrtcsJCh+iKeHFwcFRg+G3kZu4QoPuFpZxkd5nNLGH36BuKP3T25VqSJYEX3YOPPocAAA"
+      "coverW": 600,
+      "coverSmall": "covers/subte-linea-d-4011ac0b-s.webp",
+      "coverSmallW": 300,
+      "lqip": "data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAAAwBQCdASoYABgAPwF2slOrJyQiqAgBYCAJaQDPoYvCd1udA81SgwLGIGKsX5C6/upmAAD+b5vpmtzAhuqTrsSzE9+AdYcr0OuhBMtfjtU47+vxHRipIZ2kQFVTED6aE2/93SBA3EY6GhtK6/oiddYLmMWVt6F8ZPPe7y+re8jAT6eoU93X9z1ZnTGXRKhfj1FfBu1kuEUeNDt4j0o3Ou8HS8fP9qZtlkjw9RHhQEmdeVdqSpyS61Ed/ovQrCfN1GQAAA=="
     },
     {
       "title": "SACABOLLOS GS",
@@ -158,7 +158,7 @@ window.PORTFOLIO = {
       "title": "JAKE",
       "client": "",
       "category": [
-        "PersonajeS"
+        "Personajes"
       ],
       "year": 2025,
       "duration": "",
