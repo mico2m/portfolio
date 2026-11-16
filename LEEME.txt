@@ -1,6 +1,6 @@
 CÓMO EDITAR TU PORTFOLIO
 - Textos, años, categorías, links, descripciones, "featured": abrí data.js, cambiá y guardá.
+- La página de Modelado y Animación 3D está en la dirección /3d y sus datos en data-3d.js (mismo formato).
 - Portadas nuevas: ponelas en la carpeta covers/ y escribí su ruta en "cover" (ej: "covers/mi-video.webp").
-- Video nuevo: copiá un bloque { ... } de "videos" en data.js y cambiá los datos.
-- Con GitHub conectado a Netlify: editás data.js en github.com (lápiz > Commit) y en ~30 segundos está publicado.
-- Sin GitHub: arrastrá la carpeta completa a Netlify > Deploys.
+- Galería de un proyecto: "images": [ { "src": "gallery/foto.webp", "thumb": "gallery/foto-t.webp" }, { "video": "https://youtu.be/..." } ]
+- Con GitHub conectado a Netlify: editás en github.com (lápiz > Commit) y en ~30 segundos está publicado.

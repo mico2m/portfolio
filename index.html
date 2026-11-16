@@ -276,6 +276,26 @@ body.edit .fab{display:block}
 .minfo>:nth-child(4){animation-delay:.34s}
 .minfo>:nth-child(5){animation-delay:.4s}
 .minfo>:nth-child(6){animation-delay:.46s}
+/* ---------- Galería de imágenes dentro del proyecto ---------- */
+.media{min-width:0}
+.gstage{position:relative}
+.player.gimg{background:#05060d; touch-action:pan-y}
+.player.gimg img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; cursor:zoom-in; animation:fade .3s}
+.gbtn{position:absolute; top:50%; translate:0 -50%; z-index:2; width:42px; height:42px; border-radius:50%; cursor:pointer; color:#fff; font-size:26px; line-height:1; padding:0 0 3px; display:grid; place-items:center;
+  background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.35); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}
+.gbtn:hover{background:rgba(0,0,0,.68)}
+.gbtn.l{left:10px} .gbtn.r{right:10px}
+.gcount{position:absolute; right:12px; bottom:10px; z-index:2; font-size:12px; padding:3px 10px; border-radius:999px; background:rgba(0,0,0,.5); color:#fff; pointer-events:none}
+.gthumbs{display:flex; gap:8px; overflow-x:auto; padding:10px 2px 4px; width:0; min-width:100%; scrollbar-width:thin}
+.gt{flex:none; position:relative; width:74px; height:54px; border-radius:12px; overflow:hidden; padding:0; cursor:pointer; border:2px solid transparent; opacity:.6; background:#000; transition:opacity .2s,border-color .2s}
+.gt img{width:100%; height:100%; object-fit:cover; display:block}
+.gt:hover{opacity:.9}
+.gt.on{opacity:1; border-color:rgba(255,255,255,.9)}
+.gplay{position:absolute; inset:0; display:grid; place-items:center; font-size:18px; color:#fff; background:rgba(0,0,0,.35)}
+.lb{position:fixed; inset:0; z-index:90; display:grid; place-items:center; background:rgba(3,4,10,.95); animation:fade .25s}
+.lb img{max-width:96vw; max-height:94vh; object-fit:contain; border-radius:8px; cursor:zoom-out}
+.lbc{position:absolute; bottom:14px; left:50%; translate:-50% 0; color:#fff; font-size:13px; text-shadow:0 1px 4px #000}
+
 /* ---------- «También hago esto» (enlaces a otras páginas) ---------- */
 .also{margin:64px auto 8px; text-align:center}
 .also .kick{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:16px}
@@ -579,7 +599,8 @@ const inCat = v => (active === FEAT && hasFeat) ? !!v.featured : active === "Tod
 const clientKey = v => String(v.client || "").trim().toLowerCase();
 const clientInfo = key => (CONFIG.clients || []).find(c => String(c.name || "").trim().toLowerCase() === key) || {};
 const safeUrl = u => { u = String(u || "").trim(); if (!u) return ""; if (/^(https?:|mailto:)/i.test(u)) return u; if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return ""; return "https://" + u.replace(/^\/+/, ""); };
-const coverOf = v => v.cover || (parseVideo(v.video) || {}).thumb;
+const firstImg = v => (v.images || []).find(i => i && i.src);
+const coverOf = v => v.cover || (firstImg(v) && (firstImg(v).thumb || firstImg(v).src)) || (parseVideo(v.video) || {}).thumb;
 
 /* portadas en 3 pasos: un borroso diminuto que ya viene en data.js (aparece al instante) → la versión chica → la grande, solo si la pantalla la pide y la conexión alcanza */
 const SLOW = (() => { const c = navigator.connection || {}; return !!(c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || "")); })();
@@ -747,13 +768,68 @@ function swapGrid() { // fundido suave al cambiar de categoría
 }
 
 /* ---------- Modal ---------- */
+/* ---------- Galería de imágenes (renders, modelados, interiores…) y visor a pantalla completa ---------- */
+let galGo = null;
+document.addEventListener("keydown", e => { if (!galGo || document.querySelector(".lb")) return; if (e.key === "ArrowLeft") galGo(-1); else if (e.key === "ArrowRight") galGo(1); });
+function lightbox(list, k) {
+  let cur = k;
+  const img = h("img", { alt: "" }), cnt = h("div", { class: "lbc" });
+  const set = n => { cur = (n + list.length) % list.length; img.src = list[cur]; cnt.textContent = list.length > 1 ? (cur + 1) + " / " + list.length : ""; };
+  const key = e => {
+    if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); close(); }
+    else if (e.key === "ArrowLeft") { e.stopPropagation(); set(cur - 1); }
+    else if (e.key === "ArrowRight") { e.stopPropagation(); set(cur + 1); }
+  };
+  const close = () => { document.removeEventListener("keydown", key, true); el.remove(); };
+  const el = h("div", { class: "lb", onclick: e => { if (e.target === el || e.target === img) close(); } }, img,
+    h("button", { class: "close", type: "button", "aria-label": "Cerrar imagen", onclick: close }, "✕"),
+    list.length > 1 ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => set(cur - 1) }, "‹") : null,
+    list.length > 1 ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => set(cur + 1) }, "›") : null, cnt);
+  document.addEventListener("keydown", key, true);
+  document.body.append(el); set(k);
+}
+function gallery(v, o, pv, imgs, playerEl) {
+  const only = imgs.filter(i => i.src && !i.video); // las que se pueden ampliar a pantalla completa
+  const slides = (pv ? [{ video: true }] : []).concat(imgs.map(i => ({ i, vid: !!i.video })));
+  const isVid = s => !!(s.video || s.vid);
+  let cur = 0, x0 = null;
+  const view = h("div", {}), count = h("span", { class: "gcount" });
+  const thumbs = slides.map((s, k) => h("button", { class: "gt", type: "button", "aria-label": isVid(s) ? "Video" : "Imagen " + (k + (pv ? 0 : 1)), onclick: () => show(k) },
+    h("img", { src: s.video ? (coverOf(v) || "") : s.vid ? (s.i.thumb || (parseVideo(s.i.video) || {}).thumb || coverOf(v) || "") : (s.i.thumb || s.i.src), alt: "", loading: "lazy", decoding: "async" }), isVid(s) ? h("span", { class: "gplay" }, "▶") : null));
+  function show(k) {
+    cur = (k + slides.length) % slides.length;
+    const s = slides[cur];
+    if (s.video) view.replaceChildren(playerEl());
+    else if (s.vid) view.replaceChildren(playerEl(parseVideo(s.i.video)));
+    else {
+      const p = h("div", { class: "player gimg " + o }, h("img", { src: s.i.src, alt: v.title + " (imagen " + (only.indexOf(s.i) + 1) + ")", decoding: "async", onclick: () => lightbox(only.map(x => x.src), only.indexOf(s.i)) }));
+      view.replaceChildren(p);
+    }
+    thumbs.forEach((t, j) => t.classList.toggle("on", j === cur));
+    count.textContent = (cur + 1) + " / " + slides.length;
+    const t = thumbs[cur]; if (t && t.scrollIntoView) t.scrollIntoView({ inline: "center", block: "nearest" });
+  }
+  const many = slides.length > 1;
+  const stage = h("div", { class: "gstage" }, view,
+    many ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => show(cur - 1) }, "‹") : null,
+    many ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => show(cur + 1) }, "›") : null,
+    many ? count : null);
+  stage.addEventListener("pointerdown", e => { x0 = e.clientX; });
+  stage.addEventListener("pointerup", e => { if (x0 != null && many && Math.abs(e.clientX - x0) > 50 && !isVid(slides[cur])) show(cur + (e.clientX < x0 ? 1 : -1)); x0 = null; });
+  galGo = many ? d => show(cur + d) : null;
+  show(0);
+  return h("div", { class: "media" }, stage, many ? h("div", { class: "gthumbs" }, thumbs) : null);
+}
 function openModal(v) {
-  const o = oriKey(v), pv = parseVideo(v.video);
-  const player = h("div", { class: "player " + o });
-  if (!pv) player.append(h("div", { class: "ph" }, "Este video todavía no tiene un link cargado."));
-  else if (pv.type === "iframe") player.append(h("iframe", { src: pv.src, allow: "autoplay; fullscreen; picture-in-picture; encrypted-media", allowfullscreen: true, title: v.title }));
-  else if (pv.type === "file") player.append(h("video", { src: pv.src, controls: true, autoplay: true, playsinline: true }));
-  else player.append(h("div", { class: "ph" }, h("a", { class: "btn", href: pv.src, target: "_blank", rel: "noopener" }, "Ver video ↗")));
+  const o = oriKey(v), pvMain = parseVideo(v.video), pv = pvMain, imgs = (v.images || []).filter(i => i && (i.src || i.video));
+  const playerEl = (pv = pvMain) => {
+    const player = h("div", { class: "player " + o });
+    if (!pv) player.append(h("div", { class: "ph" }, "Este video todavía no tiene un link cargado."));
+    else if (pv.type === "iframe") player.append(h("iframe", { src: pv.src, allow: "autoplay; fullscreen; picture-in-picture; encrypted-media", allowfullscreen: true, title: v.title }));
+    else if (pv.type === "file") player.append(h("video", { src: pv.src, controls: true, autoplay: true, playsinline: true }));
+    else player.append(h("div", { class: "ph" }, h("a", { class: "btn", href: pv.src, target: "_blank", rel: "noopener" }, "Ver video ↗")));
+    return player;
+  };
 
   const fact = (k, val) => val ? h("div", { class: "fact" }, h("small", {}, k), val) : null;
   const paras = (v.description || "").split(/\n+/).filter(Boolean).map(t => h("p", {}, t));
@@ -769,7 +845,7 @@ function openModal(v) {
   );
   const body = $("#mbody");
   body.className = "mbody" + (o === "v" ? " vert" : "");
-  body.replaceChildren(player, info);
+  body.replaceChildren(imgs.length ? gallery(v, o, pv, imgs, playerEl) : playerEl(), info);
   clearTimeout(closeT);
   $("#overlay").classList.remove("closing");
   $("#overlay").classList.add("open");
@@ -785,6 +861,7 @@ function closeModal() {
     ov.classList.remove("open", "closing");
     ov.setAttribute("aria-hidden", "true");
     $("#mbody").replaceChildren(); // corta el video al cerrar
+    galGo = null;
     if (!$("#folder").classList.contains("open")) document.body.classList.remove("locked");
   }, 220);
 }
