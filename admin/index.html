@@ -34,6 +34,22 @@ body{margin:0;min-height:100vh;color:var(--text);background:#0a0a17;font-family:
 .formcol{display:flex;flex-direction:column;gap:16px}
 .sec{padding:20px}
 .sec h2{margin:0 0 4px;font-size:17px;letter-spacing:-.01em}
+.acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:17px;font-weight:600;letter-spacing:-.01em;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc .cnt{font-size:12px;font-weight:500;padding:1px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:rgba(255,255,255,.75)}
+.acc .chev,.cd .chev{margin-left:auto;font-size:22px;line-height:1;opacity:.7;transition:transform .25s}
+.acc[open]>summary .chev,.cd[open]>summary .chev{transform:rotate(90deg)}
+.acc:not([open]){padding-top:14px;padding-bottom:14px}
+.accb{padding-top:8px}
+.accb>p{margin:0 0 6px;color:rgba(255,255,255,.65);font-size:13px;line-height:1.5}
+.how{margin:8px 0 0;padding-left:20px;color:rgba(255,255,255,.65);font-size:13.5px;line-height:1.7}
+.how b{color:#fff}
+.cd>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px}
+.cd>summary::-webkit-details-marker{display:none}
+.cd small{color:rgba(255,255,255,.55);font-size:12px}
+.cd .cdb{margin-top:10px}
+.cdh{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cdh input{flex:1;min-width:160px}
 .sec>p{margin:0 0 6px;color:var(--muted);font-size:13px;line-height:1.5}
 .intro ol{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:13.5px;line-height:1.7}
 .intro b{color:var(--text)}
@@ -223,7 +239,13 @@ const store = { main: null, d3: null }, touched = { main: true, d3: false };
 const getPage = k => k === curPage ? S : store[k];
 function blank3d(main) {
   const m = (main && main.config) || {};
-  return normalize({ config: { name: m.name || "", photo: m.photo || "", title: "Modelado y Animación 3D", tagline: "Personajes, escenas y animaciones.", featuredLabel: "Más relevantes", showAll: true, clientGroups: true, backUrl: "/", backLabel: "← Edición de video", emptyText: "Pronto vas a ver acá mis trabajos de modelado y animación 3D." }, links: [], socials: (main && main.socials) || [], customTools: (main && main.customTools) || [], clients: [], videos: [], todosMigrated: true, stacksMigrated: true });
+  return normalize({ config: { name: m.name || "", photo: m.photo || "", title: "Modelado y Animación 3D", tagline: "Personajes, escenas y animaciones.", featuredLabel: "Más relevantes", showAll: true, clientGroups: true, backUrl: "/", backLabel: "← Edición de video", emptyText: "Pronto vas a ver acá mis trabajos de modelado y animación 3D." }, links: [], socials: (main && main.socials) || [], customTools: (main && main.customTools) || [], clients: (main && main.clients) || [], videos: [], todosMigrated: true, stacksMigrated: true });
+}
+/* la lista de clientes es una sola para las dos páginas */
+function syncClients() {
+  const a = getPage("main"), b = getPage("d3"); if (!a || !b) return;
+  const seen = new Map(); [...a.clients, ...b.clients].forEach(c => { const k = c.name.trim().toLowerCase(); if (k && !seen.has(k)) seen.set(k, c); });
+  const u = [...seen.values()]; a.clients = u; b.clients = u;
 }
 const KEY = "portfolio-admin-v2";
 
@@ -423,6 +445,7 @@ async function publish() {
   try {
     const info = await gh(""); // revisa primero que el token vea el repo y pueda escribir
     if (info.permissions && !info.permissions.push) throw new Error("el token ve el repo pero no puede escribir. En el token: Permissions → Contents → Read and write.");
+    syncClients();
     const seen = new Set();
     const files = await buildPublishFiles(getPage("main") || baseState(), "data.js", seen);
     if (touched.d3 && getPage("d3")) files.push(...await buildPublishFiles(getPage("d3"), "data-3d.js", seen));
@@ -456,7 +479,7 @@ async function pullSite(silent) {
   try {
     const main = fromPortfolio(await get("data.js"));
     let d3 = null; try { d3 = fromPortfolio(await get("data-3d.js")); } catch (e) {}
-    curPage = "main"; S = main; store.main = null; store.d3 = d3 || blank3d(main); touched.d3 = false; editingId = null;
+    curPage = "main"; S = main; store.main = null; store.d3 = d3 || blank3d(main); touched.d3 = false; editingId = null; syncClients();
     render(); changed();
     toast("Listo: se cargó lo que está publicado (" + S.videos.length + " videos" + (d3 ? " + " + d3.videos.length + " de 3D" : "") + ").");
   } catch (e) { toast("No pude traer lo publicado: " + e.message); }
@@ -504,7 +527,19 @@ const btn = (label, fn, cls = "") => h("button", { type: "button", class: "btn s
 const ib = (label, fn, title) => h("button", { type: "button", class: "ib", title, "aria-label": title, onclick: fn }, label);
 const field = (label, input, hint) => h("div", { class: "f" }, h("label", {}, label), input, hint ? h("small", {}, hint) : null);
 const bind = (el, o, k, cb) => { el.value = o[k] ?? ""; el.addEventListener("input", () => { o[k] = el.value; changed(); if (cb) cb(); }); return el; };
-const sec = (title, desc, ...kids) => h("section", { class: "sec glass" }, h("h2", {}, title), desc ? h("p", {}, desc) : null, ...kids);
+/* secciones desplegables: se acuerda cuáles dejaste abiertas */
+const OPEN = (() => { try { return JSON.parse(localStorage.getItem("portfolio-admin-open") || "{}"); } catch (e) { return {}; } })();
+const DEFAULT_OPEN = { "Perfil": true, "Tus videos": true };
+const saveOpen = () => { try { localStorage.setItem("portfolio-admin-open", JSON.stringify(OPEN)); } catch (e) {} };
+const SECTION_TITLES = ["Cómo se usa", "Perfil", "Redes sociales", "También hago esto", "Menú de arriba", "Programas extra", "Sección principal", "Clientes", "Tus videos"];
+const badgeFor = t => ({ "Redes sociales": () => S.socials.length, "Menú de arriba": () => S.links.length, "Programas extra": () => S.customTools.length, "Clientes": () => S.clients.length, "Tus videos": () => S.videos.length, "También hago esto": () => (S.config.also || []).length }[t] || (() => 0))();
+const sec = (title, desc, ...kids) => {
+  const d = h("details", { class: "sec glass acc" }), n = badgeFor(title);
+  d.open = OPEN[title] ?? !!DEFAULT_OPEN[title];
+  d.append(h("summary", {}, h("span", {}, title), n ? h("span", { class: "cnt" }, String(n)) : null, h("span", { class: "chev" }, "›")), h("div", { class: "accb" }, desc ? h("p", {}, desc) : null, ...kids));
+  d.addEventListener("toggle", () => { if (OPEN[title] !== d.open) { OPEN[title] = d.open; saveOpen(); } });
+  return d;
+};
 const allTools = () => [...STD_TOOLS, ...S.customTools.filter(t => t.name.trim()).map(t => [t.key, t.name])];
 const allCats = () => [...new Set(S.videos.flatMap(v => parseCats(v.category)))];
 
@@ -517,11 +552,12 @@ function secPages() {
   const mk = (k, label) => h("button", { type: "button", class: "btn " + (curPage === k ? "primary" : "ghost"), onclick: () => switchPage(k) }, label);
   return h("section", { class: "sec glass" }, h("h2", {}, "¿Qué página querés editar?"),
     h("p", {}, "Cada página tiene sus propios videos y textos. Al publicar se guardan las dos."),
-    h("div", { class: "add", style: "display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" }, mk("main", "🎬 Edición de video"), mk("d3", "🧊 Modelado y Animación 3D")));
+    h("div", { class: "add", style: "display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" }, mk("main", "🎬 Edición de video"), mk("d3", "🧊 Modelado y Animación 3D")),
+    h("div", { class: "add", style: "display:flex;gap:8px;margin-top:10px" }, btn("▾ Abrir todo", () => { SECTION_TITLES.forEach(t => OPEN[t] = true); saveOpen(); render(); }, "ghost"), btn("▴ Cerrar todo", () => { SECTION_TITLES.forEach(t => OPEN[t] = false); saveOpen(); render(); }, "ghost")));
 }
 function switchPage(k) {
   if (k === curPage) return;
-  store[curPage] = S; if (!store[k]) store[k] = k === "d3" ? blank3d(store.main || S) : baseState();
+  syncClients(); store[curPage] = S; if (!store[k]) store[k] = k === "d3" ? blank3d(store.main || S) : baseState();
   curPage = k; S = store[k]; editingId = null; saveLocal(); render(); refreshPreview(); window.scrollTo({ top: 0 });
 }
 function secAlso() {
@@ -541,11 +577,9 @@ function secAlso() {
     field("Mensaje cuando todavía no hay trabajos", bind(h("input", { type: "text", placeholder: "Pronto vas a ver acá mis trabajos." }), c, "emptyText")));
 }
 function secIntro() {
-  const s = h("section", { class: "sec glass intro" }, h("h2", {}, "Cómo se usa"),
-    h("ol", {}, h("li", {}, h("b", {}, "Completá"), " tus datos y cargá tus videos."),
-      h("li", {}, "Mirá cómo queda en la ", h("b", {}, "vista previa"), " (se actualiza sola)."),
-      h("li", {}, "Tocá ", h("b", {}, "Publicar"), " y en menos de un minuto tu sitio se actualiza solo.")));
-  return s;
+  return sec("Cómo se usa", null, h("ol", { class: "how" }, h("li", {}, h("b", {}, "Completá"), " tus datos y cargá tus videos."),
+    h("li", {}, "Mirá cómo queda en la ", h("b", {}, "vista previa"), " (se actualiza sola)."),
+    h("li", {}, "Tocá ", h("b", {}, "Publicar"), " y en menos de un minuto tu sitio se actualiza solo.")));
 }
 function secPerfil() {
   const c = S.config;
@@ -612,30 +646,70 @@ function secFiltros() {
       "Agrupar los videos de cada cliente en un stack (carpeta)"),
       h("small", {}, "Si un cliente tiene 2 o más videos en una categoría, se ven apilados como una carpeta que se abre al tocarla. No se aplica a «Más relevantes» ni a «Todos», que muestran todo suelto. Desmarcalo para ver también las categorías con tarjetas sueltas.")));
 }
+const OPENC = new WeakSet(); // clientes que están desplegados
 function secClients() {
+  const sameName = (a, b) => a.trim().toLowerCase() === b.trim().toLowerCase();
+  const nVideos = n => n.trim() ? S.videos.filter(v => sameName(v.client, n)).length : 0;
   const known = () => { const m = new Map(); S.videos.forEach(v => { const n = v.client.trim(); if (n && !m.has(n.toLowerCase())) m.set(n.toLowerCase(), n); }); return [...m.values()]; };
-  const dl = h("datalist", { id: "clientNames" });
   const sug = h("div", { class: "chips" });
-  const hint = h("small", {}, "Clientes de tus videos que todavía no cargaste acá (tocá uno para sumarlo):");
+  const hint = h("small", {}, "");
   const rebuild = () => {
-    const have = new Set(S.clients.map(c => c.name.trim().toLowerCase())), names = known();
-    dl.replaceChildren(...names.map(n => h("option", { value: n })));
-    const pend = names.filter(n => !have.has(n.toLowerCase()));
-    sug.replaceChildren(...pend.map(n => h("button", { type: "button", class: "mini", onclick: () => { S.clients.push({ name: n, description: "", url: "" }); render(); changed(); } }, "＋ " + n)));
+    const have = new Set(S.clients.map(c => c.name.trim().toLowerCase())), pend = known().filter(n => !have.has(n.toLowerCase()));
+    sug.replaceChildren(...(pend.length > 1 ? [h("button", { type: "button", class: "mini", onclick: () => { pend.forEach(n => S.clients.push({ name: n, description: "", url: "" })); render(); changed(); } }, "＋ Agregar los " + pend.length + " de mis videos")] : []),
+      ...pend.map(n => h("button", { type: "button", class: "mini", onclick: () => { S.clients.push({ name: n, description: "", url: "" }); render(); changed(); } }, "＋ " + n)));
+    hint.textContent = pend.length ? "Clientes que aparecen en tus videos y todavía no están en la lista (tocá para sumarlos):" : "";
     hint.hidden = !pend.length;
   };
   refreshClientHints = rebuild;
-  const box = h("div", {});
-  S.clients.forEach((c, i) => box.append(h("div", { class: "cl" },
-    h("div", { class: "rowc" },
-      bind(h("input", { type: "text", placeholder: "Nombre del cliente (igual que en tus videos)", list: "clientNames" }), c, "name"),
-      ib("✕", () => { S.clients.splice(i, 1); render(); changed(); }, "Quitar")),
-    bind(h("input", { type: "text", placeholder: "Página de referencia (ej. https://marca.com)" }), c, "url"),
-    bind(h("textarea", { rows: 3, placeholder: "Descripción: quién es el cliente y qué hiciste para él. Un Enter = párrafo nuevo." }), c, "description"))));
-  if (!S.clients.length) box.append(h("div", { class: "empty" }, "Todavía no cargaste clientes."));
+  const rows = [];
+  const row = c => {
+    let prev = c.name;
+    const n = nVideos(c.name), d = h("details", { class: "cl cd" });
+    d.open = OPENC.has(c);
+    d.addEventListener("toggle", () => { d.open ? OPENC.add(c) : OPENC.delete(c); });
+    d.dataset.n = c.name.toLowerCase();
+    const nameIn = bind(h("input", { type: "text", placeholder: "Nombre del cliente (igual que en tus videos)" }), c, "name");
+    nameIn.addEventListener("change", () => { // si le cambiás el nombre, se actualiza también en sus videos
+      const nn = c.name.trim();
+      if (prev.trim() && nn && !sameName(prev, nn)) S.videos.forEach(v => { if (sameName(v.client, prev)) v.client = nn; });
+      prev = c.name; render(); changed();
+    });
+    d.append(h("summary", {}, h("b", {}, c.name.trim() || "Cliente nuevo"), h("small", {}, n ? n + (n === 1 ? " video" : " videos") : "sin videos"), h("span", { class: "chev" }, "›")),
+      h("div", { class: "cdb" }, nameIn,
+        field("Página de referencia", bind(h("input", { type: "text", placeholder: "https://marca.com" }), c, "url")),
+        field("Descripción", bind(h("textarea", { rows: 3, placeholder: "Quién es el cliente y qué hiciste para él. Un Enter = párrafo nuevo." }), c, "description")),
+        h("div", { class: "add" }, btn("Eliminar cliente", () => { if (!confirm("¿Quitar a «" + (c.name || "este cliente") + "» de la lista? Sus videos conservan el nombre.")) return; S.clients.splice(S.clients.indexOf(c), 1); render(); changed(); }, "ghost danger"))));
+    rows.push(d); return d;
+  };
+  const sorted = S.clients.slice().sort((a, b) => a.name.trim().localeCompare(b.name.trim(), "es", { sensitivity: "base" }));
+  const list = h("div", {}, ...sorted.map(row));
+  if (!S.clients.length) list.append(h("div", { class: "empty" }, "Todavía no cargaste clientes."));
+  const q = h("input", { type: "search", placeholder: "Buscar cliente…", "aria-label": "Buscar cliente" });
+  q.addEventListener("input", () => { const t = q.value.trim().toLowerCase(); rows.forEach(r => { r.hidden = !!t && !r.dataset.n.includes(t); }); });
   rebuild();
-  return sec("Clientes", "Al abrir la carpeta de un cliente se ve su nombre arriba, la descripción y un botón a su página de referencia. El nombre tiene que ser igual al campo «Cliente» de tus videos.", box, hint, sug, dl,
-    h("div", { class: "add" }, btn("＋ Agregar cliente", () => { S.clients.push({ name: "", description: "", url: "" }); render(); changed(); })));
+  return sec("Clientes", "Tu lista de clientes. Cada video elige a su cliente de esta lista (campo «Cliente» dentro del video). Al abrir la carpeta de un cliente en el portfolio se ven su descripción y su página de referencia. La lista es la misma para las dos páginas.",
+    h("div", { class: "cdh" }, S.clients.length > 6 ? q : null, btn("＋ Agregar cliente", () => { const nc = { name: "", description: "", url: "" }; S.clients.push(nc); OPENC.add(nc); render(); changed(); }, "primary")),
+    list, hint, sug);
+}
+function clientPicker(v, onSet) {
+  const names = () => { const m = new Map(); S.clients.forEach(c => { const n = c.name.trim(); if (n) m.set(n.toLowerCase(), n); }); S.videos.forEach(x => { const n = x.client.trim(); if (n && !m.has(n.toLowerCase())) m.set(n.toLowerCase(), n); }); return [...m.values()].sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" })); };
+  const sel = h("select", {});
+  const fill = () => {
+    const all = names(), cur = v.client.trim().toLowerCase(), hit = all.find(n => n.toLowerCase() === cur);
+    sel.replaceChildren(h("option", { value: "" }, "— Sin cliente —"), ...all.map(n => h("option", { value: n }, n)), h("option", { value: "__new" }, "＋ Nuevo cliente…"));
+    sel.value = hit || "";
+  };
+  fill();
+  sel.addEventListener("change", () => {
+    if (sel.value === "__new") {
+      const n = (prompt("Nombre del cliente nuevo:") || "").trim();
+      if (!n) { fill(); return; }
+      if (!S.clients.some(c => c.name.trim().toLowerCase() === n.toLowerCase())) S.clients.push({ name: n, description: "", url: "" });
+      v.client = n;
+    } else v.client = sel.value;
+    fill(); if (onSet) onSet(); changed();
+  });
+  return sel;
 }
 /* ---------- Tus videos: grilla de portadas + editor ---------- */
 let editingId = null, prevScroll = 0;
@@ -749,7 +823,7 @@ function videoEditor(v) {
 
   body.append(
     h("div", { class: "two" }, field("Título *", bind(h("input", { type: "text", placeholder: "Nombre del video" }), v, "title", setHead)),
-      field("Cliente", bind(h("input", { type: "text", placeholder: "Marca o cliente" }), v, "client", setHead))),
+      field("Cliente", clientPicker(v, setHead))),
     field("Categorías", catIn, "Separalas con coma. Tocá una existente para sumarla o quitarla."), chips,
     h("div", { class: "three" },
       field("Fecha", dateWrap),
