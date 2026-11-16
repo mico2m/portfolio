@@ -50,8 +50,9 @@ window.PORTFOLIO = {
         "Cartoon"
       ],
       "year": 2026,
+      "date": "2026-09-12",
       "duration": "1:08",
-      "orientation": "horizontal",
+      "orientation": "cuadrado",
       "video": "https://vimeo.com/1247110938?share=copy&fl=sv&fe=ci#t=0",
       "cover": "covers/videomatch-vs-cqc-181ae2a7-m.webp",
       "tools": [
@@ -63,6 +64,28 @@ window.PORTFOLIO = {
       "coverSmall": "covers/videomatch-vs-cqc-181ae2a7-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAAAQBgCdASoYABgAPwFwrFErJiQiqA1RYCAJbACdMt7CvoArXgUzQ5VQXpNCbEkF/Xsc/tuzC37EZAAA/bK/2MstcuBNrUkh3+SYlNY4sPYwJH2C5mxkdkWjE6Yhvi26JSLH3x0b/XsqrSEvI4FkYt7mNXtqzvX/4pPhG4trEbujojg4Gu01fb5CUQ/1Q80qcqu/tShmOPf7y6LACq9Wdzwfr/7IB33+cDHN7r4xOyej08L8p/nprEpuzl2o64qveG7XMFlEdCvxErHPk+rOeMVXyvsjLY58yNirAkhA8ndcB5RdGmLS6C142o3Ph+LpLd8s8z84UmORe7aJ8r2UwMV9+vgWcXoIknaHd5zy2HzYbbmzY/xC0c1NRM2B2UNEJztHqjMAAAA="
+    },
+    {
+      "title": "SUBTE LINEA D",
+      "client": "",
+      "category": [
+        "Otros"
+      ],
+      "year": 2026,
+      "date": "2026-04-07",
+      "duration": "0:05",
+      "orientation": "cuadrado",
+      "video": "https://vimeo.com/1247111539?share=copy&fl=sv&fe=ci",
+      "cover": "covers/subte-linea-d-b11ea804-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "featured": true,
+      "coverW": 800,
+      "coverSmall": "covers/subte-linea-d-b11ea804-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABwBQCdASoYABgAPwF2slOrJySiqAgBYCAJaQDNSYyed78+QP3RdoRYyG4Z5ledRxEii32AAP5yZCbqSEwUKRzOq+HlV/Y0B7tWhBsf51bMkguNbRh1iuEU7Z+EcWChXii2LlGQoZKarfpmHN2DYXHVRkh0Y/o5qHFSGyRrD5NtEy29e2NohCW4mScD1JRtaupGOS0efeJqrtcsJCh+iKeHFwcFRg+G3kZu4QoPuFpZxkd5nNLGH36BuKP3T25VqSJYEX3YOPPocAAA"
     }
   ],
   "tools": {}
