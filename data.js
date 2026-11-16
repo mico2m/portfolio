@@ -449,6 +449,28 @@ window.PORTFOLIO = {
       "coverSmall": "covers/dylan-amigos-c2eb8d00-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAADQAwCdASoYAA4APwForE6rJiQiMAgBYCAJZwAD5YoFQdt4FDKb5mAA/gSLSpTVZjT1dcneYCAiXno0XR2G+6sC1tin+ubkN7AGDVpmV+NAwe6ehkAuyL3f4g3UFThj+9Hp5jFlA7lMs/H1fVCp2O7y1TxF4NJ/+IpdVqKcN2vhKsXYW7oCRhJAfGlLQwEv7TkWCN8QxZkr8YaJhq4AAA=="
+    },
+    {
+      "title": "AY QUE MIEDO",
+      "client": "Dylan Maingne",
+      "category": [
+        "Reels",
+        "Humor"
+      ],
+      "year": 2023,
+      "date": "2023-11-13",
+      "duration": "0:45",
+      "orientation": "vertical",
+      "video": "https://vimeo.com/1247117400?share=copy&fl=sv&fe=ci#t=0",
+      "cover": "covers/ay-que-miedo-cdfba739-m.webp",
+      "tools": [
+        "premiere"
+      ],
+      "description": "",
+      "coverW": 360,
+      "coverSmall": "covers/ay-que-miedo-cdfba739-s.webp",
+      "coverSmallW": 180,
+      "lqip": "data:image/webp;base64,UklGRgoBAABXRUJQVlA4IP4AAADQBQCdASoYACsAPwFys1MrJqSipWsxYCAJZgALACXqe97xX8OnrJ/JVBxFZTNil69iWOIaDYAAAP7wQef/6yeyoQBUabgq6a/wyMUkAL9B7GB7dBmnRhQzrrgNGI7i5IQSuWLuY30VT/b6WolqaPIVJC+GsztgQBvYDSF6FeGX2dd0S7FhBipGh6W0/rKtXpOIfw4SbeInxVkj2nCtI9QZSr6Zo9cLrdRivawxR7UWrdAw8zdmY9w/c787b5qsg+ngl8VkKrFUHrz/eIvxXOEhD+oi7e4R7sDxFL8Y0ARfeJdjbclt8cK5H1P5ygawC9nGDmInCPjGDcVulQAAAA=="
     }
   ],
   "tools": {}
