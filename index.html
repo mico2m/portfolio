@@ -118,6 +118,14 @@ nav a:hover{background:rgba(255,255,255,.14)}
   background:rgba(0,0,0,.45); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.2)}
 .fmt{position:absolute; left:10px; top:10px; font-size:11px; padding:3px 9px; border-radius:999px;
   background:rgba(0,0,0,.4); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.18)}
+.thumb-share{position:absolute; left:10px; bottom:10px; z-index:3; width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+  color:#fff; cursor:pointer; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.22);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); opacity:0; pointer-events:none; transform:translateY(4px);
+  transition:opacity .25s,transform .25s,background .2s}
+.card:hover .thumb-share,.card:focus-within .thumb-share{opacity:1; pointer-events:auto; transform:none}
+.thumb-share:hover{background:rgba(255,255,255,.28)}
+.thumb-share svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; pointer-events:none}
+@media(hover:none){.thumb-share{opacity:.92; pointer-events:auto; transform:none}}
 
 .info{padding:12px 8px 6px}
 .info h3{margin:0 0 4px; font-size:17px; letter-spacing:-.01em}
@@ -132,6 +140,11 @@ nav a:hover{background:rgba(255,255,255,.14)}
 .empty{text-align:center; color:var(--muted); padding:60px 0}
 
 footer{text-align:center; color:var(--muted); font-size:13px; padding:20px 0 40px}
+.toast{position:fixed; left:50%; bottom:24px; z-index:120; transform:translate(-50%,14px); padding:10px 18px; border-radius:999px;
+  color:#fff; font-size:13.5px; background:rgba(8,10,20,.9); border:1px solid rgba(255,255,255,.25);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); box-shadow:0 14px 44px rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; max-width:calc(100vw - 40px); text-align:center}
+.toast.show{opacity:1; transform:translate(-50%,0)}
 
 /* ---------- Modal ---------- */
 .overlay{position:fixed; inset:0; z-index:50; display:none; align-items:center; justify-content:center; padding:20px;
@@ -162,6 +175,9 @@ footer{text-align:center; color:var(--muted); font-size:13px; padding:20px 0 40p
 .desc p{margin:0 0 12px}
 .mtools{display:flex; flex-direction:column; gap:8px; margin-top:16px}
 .mtool{display:flex; align-items:center; gap:10px; font-size:14px}
+.mactions{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+.share-project{display:inline-flex; align-items:center; gap:9px; background:rgba(255,255,255,.12)}
+.share-project svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; pointer-events:none}
 @media(max-width:820px){
   .mbody,.mbody.vert{grid-template-columns:1fr}
   .player.v{height:auto; width:min(100%,340px); margin:0 auto}
@@ -736,6 +752,9 @@ function renderCard(v, idx = 99) {
   if (o !== "h") thumb.append(h("span", { class: "fmt" }, ORI_LABEL[o]));
   if (v.featured) thumb.append(h("span", { class: "star", title: "Destacado" }, "★"));
   if (v.duration) thumb.append(h("span", { class: "dur" }, v.duration));
+  const shareBtn = h("button", { class: "thumb-share", type: "button", title: "Compartir proyecto", "aria-label": "Compartir " + v.title, onclick: e => { e.stopPropagation(); shareProject(v); } }, shareIcon());
+  shareBtn.addEventListener("keydown", e => e.stopPropagation());
+  thumb.append(shareBtn);
 
   const card = h("article", { class: "card glass " + o + (v.featured ? " gold" : ""), tabindex: "0", role: "button", "aria-label": `Ver ${v.title}` },
     thumb,
@@ -746,8 +765,8 @@ function renderCard(v, idx = 99) {
       (v.tools || []).length ? h("div", { class: "tools" }, v.tools.map(t => toolBadge(t))) : null
     )
   );
-  card.addEventListener("click", () => openModal(v));
-  card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(v); } });
+  card.addEventListener("click", e => { if (e.target.closest(".thumb-share")) return; openModal(v); });
+  card.addEventListener("keydown", e => { if (e.target !== card) return; if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(v); } });
   return card;
 }
 
@@ -828,6 +847,87 @@ function gallery(v, o, pv, imgs, playerEl) {
   show(0);
   return h("div", { class: "media" }, stage, many ? h("div", { class: "gthumbs" }, thumbs) : null);
 }
+/* ---------- Compartir un proyecto con enlace directo ---------- */
+function shareIcon() {
+  const w = document.createElement("span");
+  w.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5 15.4 6.5M8.6 13.5l6.8 4"/></svg>';
+  return w.firstChild;
+}
+function projectSlug(v) {
+  return String(v.title || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 90) || "proyecto";
+}
+function shortCode(v) { // código corto y estable a partir del título
+  let h = 2166136261;
+  const s = projectSlug(v);
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0).toString(36);
+}
+function projectCode(v) {
+  const own = shortCode(v);
+  for (let n = 4; n <= own.length; n++) { // 4 caracteres; si hay coincidencia, se alarga
+    const code = own.slice(0, n);
+    if (!VIDEOS.some(x => x !== v && shortCode(x).slice(0, n) === code)) return code;
+  }
+  return own;
+}
+function projectUrl(v) {
+  const u = new URL(location.href);
+  u.hash = "";
+  u.searchParams.set("p", projectCode(v));
+  return u.toString();
+}
+function toast(msg) {
+  let el = $("#toast");
+  if (!el) { el = h("div", { class: "toast", id: "toast", role: "status", "aria-live": "polite" }); document.body.append(el); }
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => el.classList.remove("show"), 2200);
+}
+function legacyCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.top = "0"; ta.style.opacity = "0";
+  document.body.append(ta); ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) {}
+  ta.remove();
+  return ok;
+}
+async function copyProjectLink(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+  }
+  return legacyCopy(text);
+}
+async function shareProject(v) {
+  const url = projectUrl(v);
+  const data = { title: v.title, text: `${v.title}${v.client ? " — " + v.client : ""} · ${CONFIG.name}`, url };
+  if (navigator.share) {
+    try { await navigator.share(data); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  const ok = await copyProjectLink(url);
+  if (ok) toast("Enlace copiado");
+  else prompt("Copiá el enlace del proyecto:", url);
+}
+function syncProjectUrl(v) {
+  try {
+    const u = new URL(location.href);
+    u.searchParams.set("p", projectCode(v));
+    u.hash = "";
+    history.replaceState(null, "", u.toString());
+  } catch (e) {}
+}
+function clearProjectUrl() {
+  try {
+    const u = new URL(location.href);
+    if (!u.searchParams.has("p")) return;
+    u.searchParams.delete("p");
+    history.replaceState(null, "", u.toString());
+  } catch (e) {}
+}
 function openModal(v) {
   const o = oriKey(v), pvMain = parseVideo(v.video), pv = pvMain, imgs = (v.images || []).filter(i => i && (i.src || i.video));
   const playerEl = (pv = pvMain) => {
@@ -849,11 +949,13 @@ function openModal(v) {
       fact("Cliente", v.client), dateParts(v) ? fact("Fecha", fmtDate(v, true)) : fact("Año", v.year ? String(v.year) : ""),
       fact("Duración", v.duration), fact("Formato", ORI_LABEL[o])),
     paras.length ? h("div", { class: "desc" }, paras) : null,
-    (v.tools || []).length ? h("div", { class: "mtools" }, v.tools.map(t => toolBadge(t, true))) : null
+    (v.tools || []).length ? h("div", { class: "mtools" }, v.tools.map(t => toolBadge(t, true))) : null,
+    h("div", { class: "mactions" }, h("button", { class: "btn share-project", type: "button", onclick: () => shareProject(v) }, shareIcon(), "Compartir proyecto"))
   );
   const body = $("#mbody");
   body.className = "mbody" + (o === "v" ? " vert" : "");
   body.replaceChildren(imgs.length ? gallery(v, o, pv, imgs, playerEl) : playerEl(), info);
+  syncProjectUrl(v);
   clearTimeout(closeT);
   $("#overlay").classList.remove("closing");
   $("#overlay").classList.add("open");
@@ -865,6 +967,7 @@ function closeModal() {
   const ov = $("#overlay");
   if (!ov.classList.contains("open") || ov.classList.contains("closing")) return;
   ov.classList.add("closing");
+  clearProjectUrl();
   closeT = setTimeout(() => {
     ov.classList.remove("open", "closing");
     ov.setAttribute("aria-hidden", "true");
@@ -1078,6 +1181,15 @@ renderFilters(); renderGrid();
   }
   if (CONFIG.backUrl) document.body.append(h("a", { class: "back glass", href: CONFIG.backUrl }, CONFIG.backLabel || "← Volver"));
   if (!VIDEOS.length) { $("#filters").hidden = true; $("#grid").style.minHeight = "0"; $("#empty").textContent = CONFIG.emptyText || "Pronto vas a ver acá mis trabajos."; $("#empty").hidden = false; }
+}
+
+/* ---------- Enlace directo a un proyecto compartido ---------- */
+{
+  const p = new URLSearchParams(location.search).get("p");
+  if (p) {
+    const v = VIDEOS.find(x => projectCode(x) === p) || VIDEOS.find(x => projectSlug(x) === p);
+    if (v) openModal(v);
+  }
 }
 </script>
 </body>
