@@ -92,7 +92,8 @@ window.PORTFOLIO = {
       "title": "SACABOLLOS GS",
       "client": "Sacabollos GS",
       "category": [
-        "Animación"
+        "Animación",
+        "Publicidad"
       ],
       "year": 2025,
       "date": "2025-09-09",
@@ -344,6 +345,28 @@ window.PORTFOLIO = {
       "coverSmall": "covers/alejo-y-valentina-20-anos-237bb34e-s.webp",
       "coverSmallW": 300,
       "lqip": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAACQBQCdASoYABgAPwFysFIrJqSiqAqpYCAJZADE2aeDnM/Zg4dFWorJiFR6bXbFntx1gusaAAD+78MRWc8WLAuxEr3HGMD0eDJa73/z925HZXjwYHfPbVrpaOPFXAM8QIJIpt2JCT9CKszwzRpHyC6anf+x6nsqZvzHZTjxHRwYCWOACGI+dcZ3xu3wGSvzFR/EEFkU5i181Xbnhi/IXyToGYlILoum0O7djslWZfKeRzIW04OxJRdWqL+0UEkHk9r37w8b/9al6+DfCgEVmINTidCQsAAA"
+    },
+    {
+      "title": "11:11 BURGERS",
+      "client": "11:11 BURGERS",
+      "category": [
+        "Animación",
+        "Publicidad"
+      ],
+      "year": 2025,
+      "date": "2025-11-21",
+      "duration": "0:10",
+      "orientation": "cuadrado",
+      "video": "https://vimeo.com/1247254715?share=copy&fl=sv&fe=ci#t=1",
+      "cover": "covers/11-11-burgers-14c932a0-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "coverW": 720,
+      "coverSmall": "covers/11-11-burgers-14c932a0-s.webp",
+      "coverSmallW": 360,
+      "lqip": "data:image/webp;base64,UklGRnIBAABXRUJQVlA4IGYBAABwCQCdASoYABgAPwFwsFKrJiSiqAqpYCAJbACdMoMf7GB6gLb/dQDFB3M+xmUDUA/sfhJF7s9FCr63f1uDPhgOB1A3zpZxNr3dET0RQA8Y51CNhAAA/tb8SdqikbkY3Nfq5qSxYokn51xuaGHuOEK1mvLD+yTyiWDkiZ3c4CwYQYNVS8bwONuHpNrjpOSKP+nglUzE/iVnSzcSufwU3Nk5zjFQP5lYSoNz4Vzdvp+iUpkMdIytMm4O6BS1JRLL+ft1Jb7jqIujdKlpLhu3L2CE+/ikobxJcQgmp+9RFGketj7AUMt38WbJjVrN5/+Y8IVWxZzfB133k0HGpsaiDkJ6HVeo5/3RA8tgdk1pe2h28A2xVRlhS6MMmDrS2ZZogsqDzZtxmeRCgqxLuzN8RlVFqYZvzJJbWQ46RIzHPM14ZbNoIf10+R1/1/jSqU6YGIBD1OnjVlKLESCW8RWmNPyC7Og5IAAA"
     }
   ],
   "tools": {}
