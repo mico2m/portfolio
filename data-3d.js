@@ -428,6 +428,41 @@ window.PORTFOLIO = {
       "coverSmall": "covers/living-dfa07473-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAAAQBgCdASoYABgAPwF4tFOrJyUiqAgBYCAJYwALACWU+K9MrDtIOPRgGfha4bapk2ETdtQ6na7pDuAA/vKrmdYMaulM/9App2DLy3qrXKs0D9hJOSJybNZGKS6WGpIhBVP2WYMStA/QUQNyoBbSW6U5pLEtEqMNlnA2O0Rsawngw9xAzOq16XbAli+b4HoUxOth4vmWlX76YQzLcb3IT+LHBYxXcfOgVEpan6EvKsJL6PXwa+D2koTkkPnnQW8HS07bNjF/FqKmOGu39qY5zl14zAb4L2vMTcAyTBpYm6xyhTJqteJ0fH3DuaS0A8H5zI510czbrij1JRZDQAA="
+    },
+    {
+      "title": "CELULAR",
+      "client": "",
+      "category": [
+        "Productos"
+      ],
+      "year": 2022,
+      "date": "2022-08-09",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/celular-7e868b0c-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/celular-c61a7909.webp",
+          "thumb": "gallery/celular-c61a7909-t.webp"
+        },
+        {
+          "src": "gallery/celular-aeaea36e.webp",
+          "thumb": "gallery/celular-aeaea36e-t.webp"
+        },
+        {
+          "src": "gallery/celular-ae9ec8b8.webp",
+          "thumb": "gallery/celular-ae9ec8b8-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/celular-7e868b0c-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoYABgAPwFyr1KrJqQiqAqpYCAJZwAALj/XSWPaI642id+iprWAAAD+7QzBRQWE+RDhYBdQF69b7qu/ruMNcMs9IUB8xOYOzx47SvT+j58d+SgakpZ17PeB2UHrzGcCTB6rGPe+nVBI4SiIBkCECC0OjRHQ40j+iG3Tnj9FLRlhl5q+MRSZ3kgfsjbjG4wgAAA="
     }
   ],
   "tools": {}
