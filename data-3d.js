@@ -51,7 +51,7 @@ window.PORTFOLIO = {
       ],
       "year": 2026,
       "date": "2026-09-12",
-      "duration": "1:08",
+      "duration": "01:08",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247110938?share=copy&fl=sv&fe=ci#t=0",
       "cover": "covers/videomatch-vs-cqc-181ae2a7-m.webp",
@@ -74,7 +74,7 @@ window.PORTFOLIO = {
       ],
       "year": 2026,
       "date": "2026-04-07",
-      "duration": "0:05",
+      "duration": "00:05",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247111539?share=copy&fl=sv&fe=ci",
       "cover": "covers/subte-linea-d-b11ea804-m.webp",
@@ -96,7 +96,7 @@ window.PORTFOLIO = {
       ],
       "year": 2026,
       "date": "2026-09-09",
-      "duration": "",
+      "duration": "00:09",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247112016?share=copy&fl=sv&fe=ci",
       "cover": "covers/sacabollos-gs-7c522945-m.webp",
@@ -118,7 +118,7 @@ window.PORTFOLIO = {
       ],
       "year": 2025,
       "date": "2025-03-05",
-      "duration": "0:28",
+      "duration": "00:28",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247112455?share=copy&fl=sv&fe=ci",
       "cover": "covers/videomatch-3d-e8378dc2-m.webp",
@@ -132,6 +132,27 @@ window.PORTFOLIO = {
       "coverSmall": "covers/videomatch-3d-e8378dc2-s.webp",
       "coverSmallW": 300,
       "lqip": "data:image/webp;base64,UklGRlYBAABXRUJQVlA4IEoBAACQBwCdASoYABgAPwFyrlKrJqQiqAqpYCAJbACdMoKNJFJu84L8FbGgVDLfIG8z/YAHhBc4pfBuBcFaC04JT0HmM4PDEAAA/VO7X3w46UmOs0uzsZsSwfL6CDGBGdjUkveS9bELFr+mq15RmTlyO+LwPqO074PNcYZKKFp6NUdtspLTaAvrZEJFHfjMOR5XEJ69RhxV3+1IsG2BwaqdiQfhzweHEx0Aldq+eolo2lpNldCGY8v+7RjSFeL4Y/Jp50C1mtqBJ1Mw0Tz7NSxU0BYFkCLlQ4sYqZPzYOitvuK8ATTG/g6pQbXMcndeeTC/vyV1fENS/Y0NrhQ1CW0a/j6B1o7RfJuHw/IHZO7tM7FdtG3KbgqNsjp0scvncbutYyorJmL+hHMnf46ixk5oBBtTNFS+EeftrpDlUEfI0OUyipECU0ApwC+QAAA="
+    },
+    {
+      "title": "CHARLIE CHARLIE",
+      "client": "",
+      "category": [
+        "Animación"
+      ],
+      "year": 2024,
+      "date": "2024-01-08",
+      "duration": "00:21",
+      "orientation": "cuadrado",
+      "video": "https://vimeo.com/1247113769?share=copy&fl=sv&fe=ci#t=0",
+      "cover": "covers/charlie-charlie-7146bbf4-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "coverW": 800,
+      "coverSmall": "covers/charlie-charlie-7146bbf4-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACQAwCdASoYABgAPwF0rlArJ6QisBgIAWAgCWYAnS6AABCMBC8AAPnWhe+mc+r2CiNZwMC0QS2KMwI/f5yda0U15O/ui+1FYAf3BmeP+ofb11RITfds7IJ1Ru7333YqfjZl8tgEDP2wQ4AA"
     }
   ],
   "tools": {}
