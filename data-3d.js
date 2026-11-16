@@ -52,7 +52,7 @@ window.PORTFOLIO = {
       "year": 2026,
       "duration": "1:08",
       "orientation": "horizontal",
-      "video": "https://drive.google.com/file/d/1fJ2b26do0VTYmnz5w8aIWabqbpbz0Nz8/view?usp=sharing",
+      "video": "https://vimeo.com/1247110938?share=copy&fl=sv&fe=ci#t=0",
       "cover": "covers/videomatch-vs-cqc-181ae2a7-m.webp",
       "tools": [
         "blender"
