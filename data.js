@@ -402,8 +402,8 @@ window.PORTFOLIO = {
       "category": [
         "Humor"
       ],
-      "year": 1,
-      "date": "0001-08-10",
+      "year": 2021,
+      "date": "2021-08-10",
       "duration": "8:43",
       "orientation": "horizontal",
       "video": "https://www.youtube.com/watch?v=qcVP6xSmj34",
@@ -412,6 +412,21 @@ window.PORTFOLIO = {
         "premiere",
         "photoshop"
       ],
+      "description": ""
+    },
+    {
+      "title": "AYUDO A MI HERMANA CON LA TAREA PT 2",
+      "client": "ARTIK(Youtuber)",
+      "category": [
+        "Humor"
+      ],
+      "year": 2024,
+      "date": "2024-01-22",
+      "duration": "4:13",
+      "orientation": "horizontal",
+      "video": "https://www.youtube.com/watch?v=mooGzabADHs&t=81s",
+      "cover": "",
+      "tools": [],
       "description": ""
     }
   ],
