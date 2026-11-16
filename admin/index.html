@@ -410,7 +410,7 @@ async function gh(path, opts = {}) {
   try { r = await fetch("https://api.github.com/repos/" + CF.repo.trim() + path, { ...opts, headers: { Authorization: "Bearer " + CF.token.trim(), Accept: "application/vnd.github+json", "Content-Type": "application/json", "X-GitHub-Api-Version": "2022-11-28" } }); }
   catch (e) { throw new Error("No hay conexión con GitHub."); }
   if (!r.ok) {
-    const m = { 401: "El token no es válido o venció.", 403: "El token no tiene permiso de escritura en ese repo (necesita «Contents: read and write»).", 404: "No encuentro el repo o el token no tiene acceso a él.", 409: "El repo está vacío o hubo un conflicto.", 422: "GitHub rechazó el cambio (¿alguien editó a la vez? probá de nuevo)." }[r.status];
+    const m = { 401: "El token no es válido o venció.", 403: "El token no tiene permiso de escritura en ese repo (necesita «Contents: read and write»).", 404: "GitHub no encuentra el repo con ese token. Revisá en ⚙ Conexión que diga «" + CF.repo.trim() + "» y que el token tenga ese repo en «Repository access».", 409: "El repo está vacío o hubo un conflicto.", 422: "GitHub rechazó el cambio (¿alguien editó a la vez? probá de nuevo)." }[r.status];
     throw new Error(m || "GitHub respondió " + r.status + ".");
   }
   return r.json();
@@ -421,6 +421,8 @@ async function publish() {
   if (!S.config.name.trim()) { toast("Completá tu nombre antes de publicar."); return; }
   const bt = $("#export"); bt.disabled = true; const t0 = bt.textContent; bt.textContent = "Publicando…";
   try {
+    const info = await gh(""); // revisa primero que el token vea el repo y pueda escribir
+    if (info.permissions && !info.permissions.push) throw new Error("el token ve el repo pero no puede escribir. En el token: Permissions → Contents → Read and write.");
     const seen = new Set();
     const files = await buildPublishFiles(getPage("main") || baseState(), "data.js", seen);
     if (touched.d3 && getPage("d3")) files.push(...await buildPublishFiles(getPage("d3"), "data-3d.js", seen));
