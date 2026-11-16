@@ -36,6 +36,14 @@ window.PORTFOLIO = {
         "label": "mirkuwu_yt",
         "url": "https://www.youtube.com/@mirkuwu_yt"
       }
+    ],
+    "alsoTitle": "También hago esto",
+    "also": [
+      {
+        "label": "Modelado y Animación 3D",
+        "url": "3d",
+        "desc": "Personajes, escenas y animaciones"
+      }
     ]
   },
   "videos": [

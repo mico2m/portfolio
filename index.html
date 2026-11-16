@@ -276,6 +276,19 @@ body.edit .fab{display:block}
 .minfo>:nth-child(4){animation-delay:.34s}
 .minfo>:nth-child(5){animation-delay:.4s}
 .minfo>:nth-child(6){animation-delay:.46s}
+/* ---------- «También hago esto» (enlaces a otras páginas) ---------- */
+.also{margin:64px auto 8px; text-align:center}
+.also .kick{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:16px}
+.also .row{display:flex; flex-wrap:wrap; gap:14px; justify-content:center}
+.also-card{display:flex; align-items:center; gap:16px; padding:18px 24px; border-radius:26px; color:var(--text); text-decoration:none; text-align:left; max-width:420px; transition:transform .35s var(--ease), box-shadow .35s var(--ease)}
+.also-card:hover{transform:translateY(-4px) scale(1.015)}
+.also-card b{display:block; font-size:19px; letter-spacing:-.02em}
+.also-card small{display:block; margin-top:3px; color:var(--muted); font-size:13.5px; line-height:1.4}
+.also-card .arr{flex:none; width:38px; height:38px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.14); font-size:18px; transition:transform .35s var(--ease)}
+.also-card:hover .arr{transform:translateX(4px)}
+.back{position:fixed; left:14px; top:14px; z-index:30; display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:999px; color:var(--text); text-decoration:none; font-size:14px; transition:transform .25s var(--ease), background .25s}
+.back:hover{transform:translateX(-3px); background:rgba(255,255,255,.16)}
+
 /* ---------- Botón de sonido ---------- */
 .snd{position:fixed; right:14px; bottom:calc(14px + env(safe-area-inset-bottom)); z-index:30; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; padding:0; cursor:pointer; color:var(--text); font-size:17px; line-height:1; opacity:.75; transition:opacity .25s,transform .25s var(--ease)}
 .snd:hover{opacity:1; transform:scale(1.08)}
@@ -339,7 +352,9 @@ body.edit .fab{display:block}
 /* modo liviano: con «ahorro de datos», conexión 2G o poca memoria se quitan los desenfoques más pesados y las animaciones de fondo. El diseño y todo lo demás queda igual */
 (function () { try { var c = navigator.connection || {}; if (c.saveData || /2g$/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory <= 2)) document.documentElement.classList.add("lite"); } catch (e) {} })();
 </script>
-<script src="data.js"></script>
+<script id="datasrc">
+(function () { var d = /^\/3d\/?$/.test(location.pathname); if (d) document.write('<base href="/">'); document.write('<script src="' + (d ? "data-3d.js" : "data.js") + '"><\/script>'); })();
+</script>
 </head>
 <body>
 <div class="bg"><i></i><i></i><i></i><i></i></div>
@@ -359,6 +374,7 @@ body.edit .fab{display:block}
   <div class="filters rise" style="--d:.6s" id="filters"></div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>No hay videos en esta categoría todavía.</div>
+  <section class="also rise" style="--d:.2s" id="also" hidden><div class="kick" id="alsoTitle"></div><div class="row" id="alsoRow"></div></section>
 </main>
 <footer id="footer"></footer>
 
@@ -401,7 +417,7 @@ body.edit .fab{display:block}
    ===================================================================== */
 const P = window.PORTFOLIO || {};
 if (!window.PORTFOLIO) { const e = document.getElementById("empty"); if (e) { e.hidden = false; e.textContent = "No se encontró data.js: tiene que estar en la misma carpeta que index.html."; } }
-const CONFIG = Object.assign({ name: "Tu Nombre", title: "", tagline: "", links: [], socials: [] }, P.config);
+const CONFIG = Object.assign({ name: "Tu Nombre", title: "", tagline: "", links: [], socials: [], also: [] }, P.config);
 
 /* =====================================================================
    2) PROGRAMAS — la clave es lo que pones en "tools" de cada video.
@@ -418,6 +434,12 @@ const TOOLS = {
   capcut:      { name:"CapCut",          img:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMwMDAiLz48c3ZnIHg9IjE1IiB5PSIxNSIgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiB2aWV3Qm94PSIwIDAgMjQuMiAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjQuMTg5IDYuNDQyVjIuNjcxbC00LjUzNSAyLjM4M1Y0LjkxYy4wMDItMS41MDUtMS4wNzgtMi40MTEtMi42MzgtMi40MTFIMi42NEMuOTkzIDIuNSAwIDMuNDA3IDAgNC45MXYzLjgxTDYuMzU0IDEyTDAgMTUuMzE2djMuOEMwIDIwLjU5NSAxIDIxLjUgMi42NCAyMS41aDE0LjM3M2MxLjU2IDAgMi42MzktLjkwNyAyLjYzOS0yLjM4MnYtLjE5N2w0LjUzNiAyLjQwOXYtMy44MjhMMTMuNjQgMTJsMTAuNTUtNS41NTd6TTkuOTgyIDEzLjg3M2w3Ljc5NyA0LjA4M0gyLjE1N3ptNy43NDEtNy44MjhsLTcuNzQyIDQuMDU3bC03LjgyNS00LjA1N3oiLz48L3N2Zz48L3N2Zz4=" },
   finalcut:    { name:"Final Cut Pro",   abbr:"Fc", bg:"#1a1a1a", fg:"#c58bff" },  // sin logo: agregá img:"icons/finalcut.png" para el real
   blender:     { name:"Blender",         img:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMyMzI2MjkiLz48c3ZnIHg9IjEyIiB5PSIxMiIgd2lkdGg9Ijc2IiBoZWlnaHQ9Ijc2IiB2aWV3Qm94PSIyNS40IDI2LjUgMjQ0NS43IDE5ODcuNyI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIwMDcgMTQ4NmE1MzkgNTM5IDAgMCAxLTM4NyAxNThjLTE1MCAwLTI4OC01Ny0zODctMTU3Yy00OC00OS04NC0xMDUtMTA2LTE2NmE0MjkgNDI5IDAgMCAxIDI5LTM1OGMyOS01MiA2OS0xMDAgMTE4LTE0MGM5Ni03OCAyMTgtMTIwIDM0Ni0xMjBzMjUwIDQxIDM0NiAxMTljNDkgNDAgODkgODcgMTE3IDE0MGE0MzcgNDM3IDAgMCAxLTc3IDUyNHoiLz48cGF0aCBmaWxsPSIjMDA1Mzg1IiBkPSJNMTMwMCAxMTQzYzUtODEgNDUtMTUzIDEwNS0yMDRjNTktNTAgMTM5LTgxIDIyNi04MWM4NiAwIDE2NiAzMSAyMjUgODFjNjAgNTEgMTAwIDEyMyAxMDUgMjA0YzQgODQtMjkgMTYyLTg4IDIyMGMtNjEgNTgtMTQ2IDk1LTI0MiA5NXMtMTgyLTM3LTI0My05NWMtNTktNTgtOTItMTM2LTg4LTIyMCIvPjxwYXRoIGZpbGw9IiNmZjcwMjEiIGQ9Ik03NzUgMTMwOGMwIDMyIDEwIDk0IDI2IDE0M2MzMiAxMDIgODYgMTk3IDE2MiAyODFjNzggODUgMTczIDE1NCAyODQgMjAzYTkxMyA5MTMgMCAwIDAgNzQ2LTFhODQ0IDg0NCAwIDAgMCAyODMtMjA1YTc1NyA3NTcgMCAwIDAgMTkzLTQzOGE3MjEgNzIxIDAgMCAwLTEwOS00NDBhNzk1IDc5NSAwIDAgMC0xODgtMjA4TDE0MDggNTdsLTItMmMtNTAtMzgtMTM1LTM4LTE5MCAwYy01NSAzOS02MiAxMDQtMTIgMTQ1bDMxOCAyNTlsLTk3MSAxaC0xYy04MSAwLTE1OCA1My0xNzMgMTE5Yy0xNiA2OCAzOSAxMjQgMTIyIDEyNWw0OTItMWwtODc4IDY3NGwtMyAzYy04MyA2My0xMTAgMTY5LTU4IDIzNWM1MyA2OCAxNjYgNjggMjUwIDFsNDc5LTM5M3MtNyA1My03IDg1em0xMjMyIDE3OGE1MzkgNTM5IDAgMCAxLTM4NyAxNThjLTE1MCAwLTI4OC01Ny0zODctMTU3Yy00OC00OS04NC0xMDUtMTA2LTE2NmE0MjkgNDI5IDAgMCAxIDI5LTM1OGMyOS01MiA2OS0xMDAgMTE4LTE0MGM5Ni03OCAyMTgtMTIwIDM0Ni0xMjBzMjUwIDQxIDM0NiAxMTljNDkgNDAgODkgODcgMTE3IDE0MGE0MzcgNDM3IDAgMCAxLTc3IDUyNHoiLz48L3N2Zz48L3N2Zz4=" },
+  maya:        { name:"Maya",            abbr:"Ma", bg:"#0e4d5c", fg:"#7fe3f5" },
+  zbrush:      { name:"ZBrush",          abbr:"Zb", bg:"#1c1c1c", fg:"#ff6a3d" },
+  substance:   { name:"Substance 3D",    abbr:"Sp", bg:"#1b1b1b", fg:"#ff9a2e" },
+  unreal:      { name:"Unreal Engine",   abbr:"Ue", bg:"#101114", fg:"#ffffff" },
+  cinema4d:    { name:"Cinema 4D",       abbr:"C4", bg:"#0b1b3a", fg:"#79a7ff" },
+  max3ds:      { name:"3ds Max",         abbr:"3d", bg:"#0c3b45", fg:"#8fe0d0" },
   canva:       { name:"Canva",           img:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODAgODAiPjxnIGZpbGw9Im5vbmUiPjxnIGNsaXAtcGF0aD0idXJsKCNTVkdGcXJUdGN6eSkiPjxwYXRoIGZpbGw9IiM3ZDJhZTciIGQ9Ik0wIDBoODB2ODBIMHoiLz48cGF0aCBmaWxsPSJ1cmwoI1NWR2Q4aGhwZWJJKSIgZD0iTTAgMGg4MHY4MEgweiIvPjxwYXRoIGZpbGw9InVybCgjU1ZHWGpFOEFjNlgpIiBkPSJNMCAwaDgwdjgwSDB6Ii8+PHBhdGggZmlsbD0idXJsKCNTVkcxTVZSaTBWbCkiIGQ9Ik0wIDBoODB2ODBIMHoiLz48cGF0aCBmaWxsPSJ1cmwoI1NWR2xjTXFtY3lOKSIgZD0iTTAgMGg4MHY4MEgweiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01Ny4yNyA0OC4yMDVjLS4zMzEgMC0uNjIyLjI3OS0uOTI0Ljg4OGMtMy40MTQgNi45MjItOS4zMSAxMS44Mi0xNi4xMzMgMTEuODJjLTcuODkgMC0xMi43NzYtNy4xMjItMTIuNzc2LTE2Ljk2YzAtMTYuNjY4IDkuMjg2LTI2LjMwNCAxNy40NDMtMjYuMzA0YzMuODExIDAgNi4xMzkgMi4zOTUgNi4xMzkgNi4yMDdjMCA0LjUyNC0yLjU3IDYuOTE5LTIuNTcgOC41MTRjMCAuNzE2LjQ0NSAxLjE1IDEuMzI4IDEuMTVjMy41NSAwIDcuNzE1LTQuMDc4IDcuNzE1LTkuODRjMC01LjU4NS00Ljg2Mi05LjY5MS0xMy4wMTgtOS42OTFjLTEzLjQ4IDAtMjUuNDYgMTIuNDk3LTI1LjQ2IDI5Ljc4OGMwIDEzLjM4NCA3LjY0MyAyMi4yMyAxOS40MzYgMjIuMjNjMTIuNTE3IDAgMTkuNzU0LTEyLjQ1NCAxOS43NTQtMTYuNDk3YzAtLjg5NS0uNDU3LTEuMzA1LS45MzUtMS4zMDUiLz48L2c+PGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJTVkdkOGhocGViSSIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFRyYW5zZm9ybT0icm90YXRlKC00OS40MTYgODQuNzc4IDE4LjY2KXNjYWxlKDYxLjg3MzMpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzY0MjBmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzY0MjBmZiIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD48cmFkaWFsR3JhZGllbnQgaWQ9IlNWR1hqRThBYzZYIiBjeD0iMCIgY3k9IjAiIHI9IjEiIGdyYWRpZW50VHJhbnNmb3JtPSJyb3RhdGUoNTQuNzAzIDEuNzk5IDI1LjAxOSlzY2FsZSg2OS43NzM1KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIHN0b3AtY29sb3I9IiMwMGM0Y2MiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMGM0Y2MiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+PHJhZGlhbEdyYWRpZW50IGlkPSJTVkcxTVZSaTBWbCIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFRyYW5zZm9ybT0icm90YXRlKC00NS4xOTUgOTIuOTA1IDE2Ljg5KXNjYWxlKDYxLjEyNDIgMjguMTExOCkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjNjQyMGZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNjQyMGZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0iU1ZHbGNNcW1jeU4iIGN4PSIwIiBjeT0iMCIgcj0iMSIgZ3JhZGllbnRUcmFuc2Zvcm09InJvdGF0ZSg2Ni41MiA4LjE0IDMwLjMzKXNjYWxlKDYyLjk4MzYgMTA1LjUxMikiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDBjNGNjIiBzdG9wLW9wYWNpdHk9Ii43MjYiLz48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwMGM0Y2MiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMGM0Y2MiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+PGNsaXBQYXRoIGlkPSJTVkdGcXJUdGN6eSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGg4MHY4MEgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvZz48L3N2Zz4=" }
   // agregá más: miprograma:{ name:"Nombre", img:"icons/miprograma.png" }
 };
@@ -478,6 +500,8 @@ function parseVideo(url) {
     return { type: "iframe", src: `https://www.youtube.com/embed/${m[1]}?autoplay=1&rel=0`, thumb: `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` };
   if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
     return { type: "iframe", src: `https://player.vimeo.com/video/${m[1]}?autoplay=1` };
+  if ((m = url.match(/sketchfab\.com\/(?:3d-models\/(?:[\w-]*-)?|models\/)([0-9a-f]{32})/i)))
+    return { type: "iframe", src: `https://sketchfab.com/models/${m[1]}/embed?autostart=1&ui_theme=dark` };
   if ((m = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))
     return { type: "iframe", src: `https://drive.google.com/file/d/${m[1]}/preview` };
   if (/\.(mp4|webm|mov)(\?|$)/i.test(url)) return { type: "file", src: url };
@@ -924,6 +948,18 @@ else addEventListener("resize", layoutSoon);
 }
 
 renderFilters(); renderGrid();
+
+/* ---------- «También hago esto» (enlaces a otras páginas) y botón de volver ---------- */
+{
+  const also = (CONFIG.also || []).filter(a => a && a.label && a.url);
+  if (also.length) {
+    $("#alsoTitle").textContent = CONFIG.alsoTitle || "También hago esto";
+    also.forEach(a => $("#alsoRow").append(h("a", { class: "also-card glass", href: a.url }, h("div", {}, h("b", {}, a.label), a.desc ? h("small", {}, a.desc) : null), h("span", { class: "arr" }, "→"))));
+    $("#also").hidden = false;
+  }
+  if (CONFIG.backUrl) document.body.append(h("a", { class: "back glass", href: CONFIG.backUrl }, CONFIG.backLabel || "← Volver"));
+  if (!VIDEOS.length) { $("#filters").hidden = true; $("#grid").style.minHeight = "0"; $("#empty").textContent = CONFIG.emptyText || "Pronto vas a ver acá mis trabajos."; $("#empty").hidden = false; }
+}
 </script>
 </body>
 </html>
