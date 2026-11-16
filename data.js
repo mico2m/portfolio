@@ -440,11 +440,15 @@ window.PORTFOLIO = {
       "duration": "1:43",
       "orientation": "horizontal",
       "video": "https://vimeo.com/1247116281?share=copy&fl=sv&fe=ci#t=0",
-      "cover": "",
+      "cover": "covers/dylan-amigos-c2eb8d00-m.webp",
       "tools": [
         "premiere"
       ],
-      "description": ""
+      "description": "",
+      "coverW": 800,
+      "coverSmall": "covers/dylan-amigos-c2eb8d00-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAADQAwCdASoYAA4APwForE6rJiQiMAgBYCAJZwAD5YoFQdt4FDKb5mAA/gSLSpTVZjT1dcneYCAiXno0XR2G+6sC1tin+ubkN7AGDVpmV+NAwe6ehkAuyL3f4g3UFThj+9Hp5jFlA7lMs/H1fVCp2O7y1TxF4NJ/+IpdVqKcN2vhKsXYW7oCRhJAfGlLQwEv7TkWCN8QxZkr8YaJhq4AAA=="
     }
   ],
   "tools": {}
