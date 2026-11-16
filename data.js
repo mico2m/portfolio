@@ -428,6 +428,23 @@ window.PORTFOLIO = {
       "cover": "",
       "tools": [],
       "description": ""
+    },
+    {
+      "title": "DYLAN & AMIGOS",
+      "client": "Dylan Maingne",
+      "category": [
+        "Humor"
+      ],
+      "year": 2025,
+      "date": "2025-01-08",
+      "duration": "1:43",
+      "orientation": "horizontal",
+      "video": "https://vimeo.com/1247116281?share=copy&fl=sv&fe=ci#t=0",
+      "cover": "",
+      "tools": [
+        "premiere"
+      ],
+      "description": ""
     }
   ],
   "tools": {}
