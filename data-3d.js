@@ -155,7 +155,7 @@ window.PORTFOLIO = {
       "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACQAwCdASoYABgAPwF0rlArJ6QisBgIAWAgCWYAnS6AABCMBC8AAPnWhe+mc+r2CiNZwMC0QS2KMwI/f5yda0U15O/ui+1FYAf3BmeP+ofb11RITfds7IJ1Ru7333YqfjZl8tgEDP2wQ4AA"
     },
     {
-      "title": "JAKE",
+      "title": "Jake",
       "client": "",
       "category": [
         "Personajes"
