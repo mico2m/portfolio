@@ -263,6 +263,11 @@ body.edit .fab{display:block}
 .minfo>:nth-child(4){animation-delay:.34s}
 .minfo>:nth-child(5){animation-delay:.4s}
 .minfo>:nth-child(6){animation-delay:.46s}
+/* ---------- Botón de sonido ---------- */
+.snd{position:fixed; right:14px; bottom:calc(14px + env(safe-area-inset-bottom)); z-index:30; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; padding:0; cursor:pointer; color:var(--text); font-size:17px; line-height:1; opacity:.75; transition:opacity .25s,transform .25s var(--ease)}
+.snd:hover{opacity:1; transform:scale(1.08)}
+.snd.off{opacity:.45}
+
 /* ---------- Portadas: borroso diminuto → versión chica → versión grande ---------- */
 .thumb,.sl{background-size:cover; background-position:center}
 .thumb img.fade{opacity:0; transition:opacity .5s var(--ease),transform .5s}
@@ -375,6 +380,7 @@ body.edit .fab{display:block}
   </div>
 </aside>
 
+<button class="snd glass" id="snd" type="button" aria-label="Sonido"></button>
 <script>
 /* =====================================================================
    1) DATOS — tu información y tus videos están en el archivo data.js (al lado de este index.html).
@@ -854,6 +860,43 @@ let layoutRaf = 0; // varios avisos de cambio de tamaño seguidos se juntan en u
 const layoutSoon = () => { if (!layoutRaf) layoutRaf = requestAnimationFrame(() => { layoutRaf = 0; layoutGrid(); }); };
 if ("ResizeObserver" in window) { const ro = new ResizeObserver(layoutSoon); ro.observe($("#grid")); ro.observe($("#fgrid")); }
 else addEventListener("resize", layoutSoon);
+
+/* ---------- Sonidos suaves al tocar secciones y portadas (se generan en el momento, sin archivos) ---------- */
+{
+  const key = "sound", btn = $("#snd");
+  let on = true, ctx = null;
+  try { on = localStorage.getItem(key) !== "0"; } catch (e) {}
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const paint = () => { btn.textContent = on ? "🔊" : "🔇"; btn.classList.toggle("off", !on); btn.setAttribute("aria-pressed", String(on)); btn.title = on ? "Sonido activado (tocá para silenciar)" : "Sonido silenciado (tocá para activar)"; };
+  /* una nota: frecuencia inicial → final, con ataque rápido y caída suave */
+  const tone = (f0, f1, dur, vol, type, at = 0) => {
+    const t = ctx.currentTime + at, o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + dur + 0.02);
+  };
+  const SFX = {
+    chip: () => { tone(520, 760, .09, .05, "sine"); tone(1040, 1400, .07, .018, "triangle", .005); },          // toque de sección: "tic" suave
+    open: () => { tone(523, 784, .34, .05, "sine"); tone(784, 1175, .4, .03, "sine", .045); tone(1568, 1568, .2, .01, "triangle", .06); }, // portada: campanita de vidrio
+    close: () => { tone(620, 380, .13, .04, "sine"); }                                                          // cerrar: baja suave
+  };
+  window.sfx = name => {
+    if (!on || !AC) return;
+    try { if (!ctx) ctx = new AC(); if (ctx.state === "suspended") ctx.resume(); SFX[name](); } catch (e) {}
+  };
+  btn.addEventListener("click", () => { on = !on; try { localStorage.setItem(key, on ? "1" : "0"); } catch (e) {} paint(); if (on) sfx("chip"); });
+  paint();
+  document.addEventListener("click", e => {
+    const t = e.target; if (!t.closest || t.closest("#snd")) return;
+    if (t.closest(".chip")) sfx("chip");
+    else if (t.closest(".card")) sfx("open");
+    else if (t.closest(".close") || t.classList.contains("overlay") || t.classList.contains("folder")) sfx("close");
+  }, true);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && (($("#overlay") || {}).classList || { contains: () => false }).contains("open")) sfx("close");
+    else if (e.key === "Enter" && e.target.classList && e.target.classList.contains("card")) sfx("open");
+  });
+}
 
 renderFilters(); renderGrid();
 </script>
