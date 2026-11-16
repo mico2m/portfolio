@@ -285,7 +285,6 @@ window.PORTFOLIO = {
         "blender"
       ],
       "description": "",
-      "featured": true,
       "images": [
         {
           "src": "gallery/gaturro-83dff637.webp",
@@ -384,7 +383,6 @@ window.PORTFOLIO = {
         "blender"
       ],
       "description": "",
-      "featured": true,
       "images": [
         {
           "src": "gallery/american-physco-e9fff1d9.webp",
