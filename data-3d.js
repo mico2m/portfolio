@@ -47,7 +47,7 @@ window.PORTFOLIO = {
       "title": "VIDEOMATCH VS CQC",
       "client": "",
       "category": [
-        "Cartoon"
+        "Animación"
       ],
       "year": 2026,
       "date": "2026-09-12",
@@ -70,7 +70,7 @@ window.PORTFOLIO = {
       "title": "SUBTE LINEA D",
       "client": "",
       "category": [
-        "Otros"
+        "Animación"
       ],
       "year": 2026,
       "date": "2026-04-07",
@@ -91,7 +91,9 @@ window.PORTFOLIO = {
     {
       "title": "SACABOLLOS GS",
       "client": "Sacabollos GS",
-      "category": [],
+      "category": [
+        "Animación"
+      ],
       "year": 2026,
       "date": "2026-09-09",
       "duration": "",
@@ -114,7 +116,8 @@ window.PORTFOLIO = {
       "category": [
         "Animación"
       ],
-      "year": 2026,
+      "year": 2025,
+      "date": "2025-03-05",
       "duration": "0:28",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247112455?share=copy&fl=sv&fe=ci",
