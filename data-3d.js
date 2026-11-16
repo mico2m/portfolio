@@ -399,6 +399,37 @@ window.PORTFOLIO = {
       "coverSmall": "covers/american-physco-9c66955c-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoYABgAPwF0rVKrJqOiqAqpYCAJQBf95YJywMCRwNmzFNQ2quaa5QP/gWagAAD+8qRW1FTUxyF27O738/1751a8g0T5QfmYnaFv/Vb4Qj13GA+OTYRj4hzAXJOyi8ovs0IXgjUpjgn7Jp5j/y8jm6zYrrZGnELfy+ZefkKL62oVJ4BUZg9zbDXZsjvYl73bDK2g2eFuuJYcNWmo1RVcmREE4498KfokCpTgAA=="
+    },
+    {
+      "title": "LIVING",
+      "client": "",
+      "category": [
+        "Entornos"
+      ],
+      "year": 2022,
+      "date": "2022-06-24",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/living-dfa07473-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/living-d5e41d06.webp",
+          "thumb": "gallery/living-d5e41d06-t.webp"
+        },
+        {
+          "src": "gallery/living-a1cff689.webp",
+          "thumb": "gallery/living-a1cff689-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/living-dfa07473-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAAAQBgCdASoYABgAPwF4tFOrJyUiqAgBYCAJYwALACWU+K9MrDtIOPRgGfha4bapk2ETdtQ6na7pDuAA/vKrmdYMaulM/9App2DLy3qrXKs0D9hJOSJybNZGKS6WGpIhBVP2WYMStA/QUQNyoBbSW6U5pLEtEqMNlnA2O0Rsawngw9xAzOq16XbAli+b4HoUxOth4vmWlX76YQzLcb3IT+LHBYxXcfOgVEpan6EvKsJL6PXwa+D2koTkkPnnQW8HS07bNjF/FqKmOGu39qY5zl14zAb4L2vMTcAyTBpYm6xyhTJqteJ0fH3DuaS0A8H5zI510czbrij1JRZDQAA="
     }
   ],
   "tools": {}
