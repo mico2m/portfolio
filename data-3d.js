@@ -94,21 +94,31 @@ window.PORTFOLIO = {
       "category": [
         "Animación"
       ],
-      "year": 2026,
-      "date": "2026-09-09",
+      "year": 2025,
+      "date": "2025-09-09",
       "duration": "00:09",
       "orientation": "cuadrado",
       "video": "https://vimeo.com/1247112016?share=copy&fl=sv&fe=ci",
-      "cover": "covers/sacabollos-gs-7c522945-m.webp",
+      "cover": "covers/sacabollos-gs-ec7afe36-m.webp",
       "tools": [
         "blender"
       ],
       "description": "",
       "featured": true,
-      "coverW": 800,
-      "coverSmall": "covers/sacabollos-gs-7c522945-s.webp",
-      "coverSmallW": 400,
-      "lqip": "data:image/webp;base64,UklGRvwAAABXRUJQVlA4IPAAAACQBQCdASoYABgAPwF2slQrJySjKAgBYCAJaQAFEB7SvpIMgCzMAOU8X9oIg4r21j6Q4QHAAAD+3ON664c2MUQ4c7owLhoTzXU0yAT0+e4cVa2xhrEDk7C/ECV3F8JjhCzD8w9aJKz/6PmaDq5wkLP3+oET35Wji81yhtjEoODezy0br+4/xJI4VzNe6Av000Dl/NNNqiW+mJ5BbNuYR+k8Z7V+3M3F+dM4ZujzyAxI3/CZ3M3NvmIvQZ76zXi5boJ1+3/xi2l2FOxzp1DyjDr5UbkCMI9cy1AEDYKd/WnbfwvoHejX2fyMAOdjGuQAAAA="
+      "images": [
+        {
+          "src": "gallery/sacabollos-gs-dbd522fb.webp",
+          "thumb": "gallery/sacabollos-gs-dbd522fb-t.webp"
+        },
+        {
+          "src": "gallery/sacabollos-gs-d7f5f925.webp",
+          "thumb": "gallery/sacabollos-gs-d7f5f925-t.webp"
+        }
+      ],
+      "coverW": 600,
+      "coverSmall": "covers/sacabollos-gs-ec7afe36-s.webp",
+      "coverSmallW": 300,
+      "lqip": "data:image/webp;base64,UklGRu4AAABXRUJQVlA4IOIAAAAQBQCdASoYABgAPwF2slOrJySiqAgBYCAJaQAD4xJlYVRsi/9X3ESdS51Kv0k5xX8AAP7vhH7l8IkK5SB831S5tXHJtixWudyc/1SA3mgvecZt7UwenHcH2CXhrvVWRmYu6VJ0N/i83yZjeUFq/2xHEgmbzLGtpGLKuiEjT4mFPElM2wVJ3MQrVmJlzl2jpeLMhK1LAWyzd4EMWFkceAx6b1yRZxMfTonJDHFN/fqxS1yDPQuR/sXXItQi4qJKiuMX7gXs430/tk2YH1RbxgzeMyXpht1iWh32RHwfbikAAAAA"
     },
     {
       "title": "VIDEOMATCH 3D",
@@ -257,6 +267,38 @@ window.PORTFOLIO = {
       "coverSmall": "covers/plancton-23f3f1ce-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADwBACdASoYABgAPwF2s1OrJySiqAgBYCAJYgCdM47BJm1yvF/YffWSSVY3DmDXDUAA/lcTJBgsfJKqNDv5TiZLSa9DD2UUZx+yIImKmhlIqtKyi1k+xEFAtE238jeUt92kQr1kjF561kyo5RkhughRNjBs2WqOr9gtcEW4ZsQjZkqb0nPwNDN8AAA="
+    },
+    {
+      "title": "Gaturro",
+      "client": "",
+      "category": [
+        "Personajes"
+      ],
+      "year": 2023,
+      "date": "2023-07-17",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/gaturro-10374fc6-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "featured": true,
+      "images": [
+        {
+          "src": "gallery/gaturro-83dff637.webp",
+          "thumb": "gallery/gaturro-83dff637-t.webp"
+        },
+        {
+          "src": "gallery/gaturro-97113a1d.webp",
+          "thumb": "gallery/gaturro-97113a1d-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/gaturro-10374fc6-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRgwBAABXRUJQVlA4IAABAADwBgCdASoYABgAPwFysVIrJqSiqAqpYCAJbACdMuN6d+bei5ARYBvHRXge58g+Rc/Rx5VnF5Ts1bfbaFjZ6gXAAP65KaLd+OvT8QZuw+xTMGbwyefBLcdeC4MKM2w2Gs//wXE19XQOR8YiIihEvGarz6m015EffTYtOe53kVNubA7UBI94h6AMry0Et7SSFl3wSFMuRW9o6dGbQ2S54AIFysx962TdWVcC/SUc9/N5wnlAskJvfKzUTzPcScQHEOPN7fyRtPdcjpqHJQh6HEUO6/XTYisOUfK4hlR9vzwdo349//SA/lCec8ChhPauphRoj2KaUIcEQOAjIJlwAAAA"
     }
   ],
   "tools": {}
