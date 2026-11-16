@@ -299,6 +299,51 @@ window.PORTFOLIO = {
       "coverSmall": "covers/gaturro-10374fc6-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRgwBAABXRUJQVlA4IAABAADwBgCdASoYABgAPwFysVIrJqSiqAqpYCAJbACdMuN6d+bei5ARYBvHRXge58g+Rc/Rx5VnF5Ts1bfbaFjZ6gXAAP65KaLd+OvT8QZuw+xTMGbwyefBLcdeC4MKM2w2Gs//wXE19XQOR8YiIihEvGarz6m015EffTYtOe53kVNubA7UBI94h6AMry0Et7SSFl3wSFMuRW9o6dGbQ2S54AIFysx962TdWVcC/SUc9/N5wnlAskJvfKzUTzPcScQHEOPN7fyRtPdcjpqHJQh6HEUO6/XTYisOUfK4hlR9vzwdo349//SA/lCec8ChhPauphRoj2KaUIcEQOAjIJlwAAAA"
+    },
+    {
+      "title": "ALEJO Y VALENTINA 20 AÑOS",
+      "client": "FLIXXO",
+      "category": [
+        "Personajes",
+        "Publicidad"
+      ],
+      "year": 2021,
+      "date": "2021-09-25",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/alejo-y-valentina-20-anos-237bb34e-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "featured": true,
+      "images": [
+        {
+          "src": "gallery/alejo-y-valentina-20-anos-a68b7cfb.webp",
+          "thumb": "gallery/alejo-y-valentina-20-anos-a68b7cfb-t.webp"
+        },
+        {
+          "src": "gallery/alejo-y-valentina-20-anos-096ddcd7.webp",
+          "thumb": "gallery/alejo-y-valentina-20-anos-096ddcd7-t.webp"
+        },
+        {
+          "src": "gallery/alejo-y-valentina-20-anos-29d53c77.webp",
+          "thumb": "gallery/alejo-y-valentina-20-anos-29d53c77-t.webp"
+        },
+        {
+          "src": "gallery/alejo-y-valentina-20-anos-840c9263.webp",
+          "thumb": "gallery/alejo-y-valentina-20-anos-840c9263-t.webp"
+        },
+        {
+          "src": "gallery/alejo-y-valentina-20-anos-32a2c599.webp",
+          "thumb": "gallery/alejo-y-valentina-20-anos-32a2c599-t.webp"
+        }
+      ],
+      "coverW": 600,
+      "coverSmall": "covers/alejo-y-valentina-20-anos-237bb34e-s.webp",
+      "coverSmallW": 300,
+      "lqip": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAACQBQCdASoYABgAPwFysFIrJqSiqAqpYCAJZADE2aeDnM/Zg4dFWorJiFR6bXbFntx1gusaAAD+78MRWc8WLAuxEr3HGMD0eDJa73/z925HZXjwYHfPbVrpaOPFXAM8QIJIpt2JCT9CKszwzRpHyC6anf+x6nsqZvzHZTjxHRwYCWOACGI+dcZ3xu3wGSvzFR/EEFkU5i181Xbnhi/IXyToGYlILoum0O7djslWZfKeRzIW04OxJRdWqL+0UEkHk9r37w8b/9al6+DfCgEVmINTidCQsAAA"
     }
   ],
   "tools": {}
