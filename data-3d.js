@@ -367,6 +367,38 @@ window.PORTFOLIO = {
       "coverSmall": "covers/11-11-burgers-14c932a0-s.webp",
       "coverSmallW": 360,
       "lqip": "data:image/webp;base64,UklGRnIBAABXRUJQVlA4IGYBAABwCQCdASoYABgAPwFwsFKrJiSiqAqpYCAJbACdMoMf7GB6gLb/dQDFB3M+xmUDUA/sfhJF7s9FCr63f1uDPhgOB1A3zpZxNr3dET0RQA8Y51CNhAAA/tb8SdqikbkY3Nfq5qSxYokn51xuaGHuOEK1mvLD+yTyiWDkiZ3c4CwYQYNVS8bwONuHpNrjpOSKP+nglUzE/iVnSzcSufwU3Nk5zjFQP5lYSoNz4Vzdvp+iUpkMdIytMm4O6BS1JRLL+ft1Jb7jqIujdKlpLhu3L2CE+/ikobxJcQgmp+9RFGketj7AUMt38WbJjVrN5/+Y8IVWxZzfB133k0HGpsaiDkJ6HVeo5/3RA8tgdk1pe2h28A2xVRlhS6MMmDrS2ZZogsqDzZtxmeRCgqxLuzN8RlVFqYZvzJJbWQ46RIzHPM14ZbNoIf10+R1/1/jSqU6YGIBD1OnjVlKLESCW8RWmNPyC7Og5IAAA"
+    },
+    {
+      "title": "AMERICAN PHYSCO",
+      "client": "",
+      "category": [
+        "Entornos"
+      ],
+      "year": 2022,
+      "date": "2022-09-23",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/american-physco-9c66955c-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "featured": true,
+      "images": [
+        {
+          "src": "gallery/american-physco-e9fff1d9.webp",
+          "thumb": "gallery/american-physco-e9fff1d9-t.webp"
+        },
+        {
+          "src": "gallery/american-physco-01d92f08.webp",
+          "thumb": "gallery/american-physco-01d92f08-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/american-physco-9c66955c-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoYABgAPwF0rVKrJqOiqAqpYCAJQBf95YJywMCRwNmzFNQ2quaa5QP/gWagAAD+8qRW1FTUxyF27O738/1751a8g0T5QfmYnaFv/Vb4Qj13GA+OTYRj4hzAXJOyi8ovs0IXgjUpjgn7Jp5j/y8jm6zYrrZGnELfy+ZefkKL62oVJ4BUZg9zbDXZsjvYl73bDK2g2eFuuJYcNWmo1RVcmREE4498KfokCpTgAA=="
     }
   ],
   "tools": {}
