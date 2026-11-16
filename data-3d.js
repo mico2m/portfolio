@@ -86,6 +86,48 @@ window.PORTFOLIO = {
       "coverSmall": "covers/subte-linea-d-b11ea804-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABwBQCdASoYABgAPwF2slOrJySiqAgBYCAJaQDNSYyed78+QP3RdoRYyG4Z5ledRxEii32AAP5yZCbqSEwUKRzOq+HlV/Y0B7tWhBsf51bMkguNbRh1iuEU7Z+EcWChXii2LlGQoZKarfpmHN2DYXHVRkh0Y/o5qHFSGyRrD5NtEy29e2NohCW4mScD1JRtaupGOS0efeJqrtcsJCh+iKeHFwcFRg+G3kZu4QoPuFpZxkd5nNLGH36BuKP3T25VqSJYEX3YOPPocAAA"
+    },
+    {
+      "title": "SACABOLLOS GS",
+      "client": "Sacabollos GS",
+      "category": [],
+      "year": 2026,
+      "date": "2026-09-09",
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "https://vimeo.com/1247112016?share=copy&fl=sv&fe=ci",
+      "cover": "covers/sacabollos-gs-7c522945-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "featured": true,
+      "coverW": 800,
+      "coverSmall": "covers/sacabollos-gs-7c522945-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRvwAAABXRUJQVlA4IPAAAACQBQCdASoYABgAPwF2slQrJySjKAgBYCAJaQAFEB7SvpIMgCzMAOU8X9oIg4r21j6Q4QHAAAD+3ON664c2MUQ4c7owLhoTzXU0yAT0+e4cVa2xhrEDk7C/ECV3F8JjhCzD8w9aJKz/6PmaDq5wkLP3+oET35Wji81yhtjEoODezy0br+4/xJI4VzNe6Av000Dl/NNNqiW+mJ5BbNuYR+k8Z7V+3M3F+dM4ZujzyAxI3/CZ3M3NvmIvQZ76zXi5boJ1+3/xi2l2FOxzp1DyjDr5UbkCMI9cy1AEDYKd/WnbfwvoHejX2fyMAOdjGuQAAAA="
+    },
+    {
+      "title": "VIDEOMATCH 3D",
+      "client": "",
+      "category": [
+        "Animación"
+      ],
+      "year": 2026,
+      "duration": "0:28",
+      "orientation": "cuadrado",
+      "video": "https://vimeo.com/1247112455?share=copy&fl=sv&fe=ci",
+      "cover": "covers/videomatch-3d-369c03d9-m.webp",
+      "tools": [
+        "blender",
+        "premiere"
+      ],
+      "description": "",
+      "featured": true,
+      "coverW": 800,
+      "coverSmall": "covers/videomatch-3d-369c03d9-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRkwBAABXRUJQVlA4IEABAADQBgCdASoYABgAPwFurlCrJiQiqA1RYCAJbACdM5Hn0nbsllfgrQUEptFHhb85rz5+EShOb66JJlgVqhoaQxAA/vKzD0pQr/7NNZuAsE2hWP8FrpqHD/2fcPQHcnoSUerUMvER79V5K3v3iacpdRv95TZ3NTFauptlT3+57eYPy02W2uDvGmgptMD2vDlqXIuvMGiKTHNCxDFMbyhyD7dI6PcoPmvPFN+RY4HHyjvr+bQuT9PFhQbRbQSs2hh4PspW3EOmftpoNq+nd3EdxgmHq46ppj/oZ5wXDQACrvXFRLpAa/CkxO5CTR8Z4Hb+cBiEFZ7PT85q3mMVFszQcgcXRvhHfIKYgJd79QRmecS9lJ8Cx96xLAXy35oWUbj2xJ+J2f35M1l30BKrPzMPtes6RSUUmCAMcXVGFc9/2QAAAA=="
     }
   ],
   "tools": {}
