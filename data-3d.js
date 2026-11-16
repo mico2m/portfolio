@@ -64,21 +64,7 @@ window.PORTFOLIO = {
       "coverW": 800,
       "coverSmall": "covers/videomatch-vs-cqc-181ae2a7-s.webp",
       "coverSmallW": 400,
-      "lqip": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAAAQBgCdASoYABgAPwFwrFErJiQiqA1RYCAJbACdMt7CvoArXgUzQ5VQXpNCbEkF/Xsc/tuzC37EZAAA/bK/2MstcuBNrUkh3+SYlNY4sPYwJH2C5mxkdkWjE6Yhvi26JSLH3x0b/XsqrSEvI4FkYt7mNXtqzvX/4pPhG4trEbujojg4Gu01fb5CUQ/1Q80qcqu/tShmOPf7y6LACq9Wdzwfr/7IB33+cDHN7r4xOyej08L8p/nprEpuzl2o64qveG7XMFlEdCvxErHPk+rOeMVXyvsjLY58yNirAkhA8ndcB5RdGmLS6C142o3Ph+LpLd8s8z84UmORe7aJ8r2UwMV9+vgWcXoIknaHd5zy2HzYbbmzY/xC0c1NRM2B2UNEJztHqjMAAAA=",
-      "images": [
-        {
-          "src": "gallery/videomatch-vs-cqc-26996e38.jpg",
-          "thumb": "gallery/videomatch-vs-cqc-26996e38-t.jpg"
-        },
-        {
-          "src": "gallery/videomatch-vs-cqc-195a0740.jpg",
-          "thumb": "gallery/videomatch-vs-cqc-195a0740-t.jpg"
-        },
-        {
-          "src": "gallery/videomatch-vs-cqc-2021b8d4.jpg",
-          "thumb": "gallery/videomatch-vs-cqc-2021b8d4-t.jpg"
-        }
-      ]
+      "lqip": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAAAQBgCdASoYABgAPwFwrFErJiQiqA1RYCAJbACdMt7CvoArXgUzQ5VQXpNCbEkF/Xsc/tuzC37EZAAA/bK/2MstcuBNrUkh3+SYlNY4sPYwJH2C5mxkdkWjE6Yhvi26JSLH3x0b/XsqrSEvI4FkYt7mNXtqzvX/4pPhG4trEbujojg4Gu01fb5CUQ/1Q80qcqu/tShmOPf7y6LACq9Wdzwfr/7IB33+cDHN7r4xOyej08L8p/nprEpuzl2o64qveG7XMFlEdCvxErHPk+rOeMVXyvsjLY58yNirAkhA8ndcB5RdGmLS6C142o3Ph+LpLd8s8z84UmORe7aJ8r2UwMV9+vgWcXoIknaHd5zy2HzYbbmzY/xC0c1NRM2B2UNEJztHqjMAAAA="
     },
     {
       "title": "SUBTE LINEA D",
@@ -167,6 +153,110 @@ window.PORTFOLIO = {
       "coverSmall": "covers/charlie-charlie-7146bbf4-s.webp",
       "coverSmallW": 400,
       "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACQAwCdASoYABgAPwF0rlArJ6QisBgIAWAgCWYAnS6AABCMBC8AAPnWhe+mc+r2CiNZwMC0QS2KMwI/f5yda0U15O/ui+1FYAf3BmeP+ofb11RITfds7IJ1Ru7333YqfjZl8tgEDP2wQ4AA"
+    },
+    {
+      "title": "JAKE",
+      "client": "",
+      "category": [
+        "PersonajeS"
+      ],
+      "year": 2025,
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/jake-da95602a-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/jake-1a61ea6d.webp",
+          "thumb": "gallery/jake-1a61ea6d-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/jake-da95602a-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRsYAAABXRUJQVlA4ILoAAACQBACdASoYABgAPwFurlArJiQiqA1RYCAJbAC9WAJ6xxQ9fG2MxD/0K+/U54AA/q+McAQzOvQgK4kaKGBH+PJIARe1sEgmHujG4SKyvjp2n/kf+4ZlpxCn8jfpG47QgfAurhzb/UxnJYWzdas+qdILvdGBBgCMm+ayXehxD/OeMgYqZXfyqTNTJIsYLXo+ajRuMhLKLYpy6ZjyPoiJ0zYTbbyx99+fcwjtkbJ6PxW9RzCItMXhWDXVYgA="
+    },
+    {
+      "title": "Puca",
+      "client": "",
+      "category": [
+        "Personajes"
+      ],
+      "year": 2025,
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/puca-2ee2cae2-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/puca-e59a85f1.webp",
+          "thumb": "gallery/puca-e59a85f1-t.webp"
+        }
+      ],
+      "coverW": 600,
+      "coverSmall": "covers/puca-2ee2cae2-s.webp",
+      "coverSmallW": 300,
+      "lqip": "data:image/webp;base64,UklGRg4BAABXRUJQVlA4IAIBAABwBQCdASoYABgAPwF2slOrJyQiqAgBYCAJbACdBHAH+ML8xkYrCMGcBiqLYojZ1KjShDAAAP7i/rYvMEkBQltRs0+z6HRSbpAY7G4fJzXbJqyUxxvYlYhL8OsHeh+c+oMCOzw6VV+Hgih6jYUWC0z8LUakwfC4JdSOpj+PaQ10nKQ1ujGeTGG4HsKCJ5SulPqb9qANH1ri9fSkG7T5jrtNMCJkglKs6ThU8iUSZSXXjg5FPQHxRn6eeUFa1YY8W8QTetfL0F8YsIgLVk2dO0epiTOpFGALn8Y4ZfO9VL1Vtv9hY9SRwrtkg73GAKK9LHEU/d7wtZB0kc++4FAGlasAAAA="
+    },
+    {
+      "title": "Happy Berry",
+      "client": "",
+      "category": [
+        "Personajes"
+      ],
+      "year": 2025,
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/happy-berry-53062799-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/happy-berry-eb3892ef.webp",
+          "thumb": "gallery/happy-berry-eb3892ef-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/happy-berry-53062799-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAADwBACdASoYABgAPwFsr0+rJiQiKA1RYCAJbADA3Yt8cLXUMT2ILMrxDsT4m8NJF2AA/m3MLse6zAEXU1l38yHwt6iDcK7tL+pOYV9mXlWFqh16m+F8vgY/1J3J/o+FMj6Up6keR8Bg84GaxnUAAF/uiKu1VRaLS/7C4oBvMA6t6GXlvklRN0CW4dzin8fFAgLlPP6rNzFCW5rDZcTJiCrqVjlieAf9p45gzpUw/OZFIAAA"
+    },
+    {
+      "title": "Plancton",
+      "client": "",
+      "category": [
+        "Personajes"
+      ],
+      "year": 2025,
+      "duration": "",
+      "orientation": "cuadrado",
+      "video": "",
+      "cover": "covers/plancton-23f3f1ce-m.webp",
+      "tools": [
+        "blender"
+      ],
+      "description": "",
+      "images": [
+        {
+          "src": "gallery/plancton-feb4fdb2.webp",
+          "thumb": "gallery/plancton-feb4fdb2-t.webp"
+        }
+      ],
+      "coverW": 800,
+      "coverSmall": "covers/plancton-23f3f1ce-s.webp",
+      "coverSmallW": 400,
+      "lqip": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADwBACdASoYABgAPwF2s1OrJySiqAgBYCAJYgCdM47BJm1yvF/YffWSSVY3DmDXDUAA/lcTJBgsfJKqNDv5TiZLSa9DD2UUZx+yIImKmhlIqtKyi1k+xEFAtE238jeUt92kQr1kjF561kyo5RkhughRNjBs2WqOr9gtcEW4ZsQjZkqb0nPwNDN8AAA="
     }
   ],
   "tools": {}
