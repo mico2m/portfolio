@@ -120,7 +120,15 @@ nav a:hover{background:rgba(255,255,255,.14)}
   -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7); opacity:0; transform:scale(.85); transition:all .3s}
 .card:hover .play span{opacity:1; transform:none}
-.play svg{width:22px; height:22px; fill:#fff; margin-left:3px}
+.play svg{width:22px; height:22px; fill:#fff}
+.ico{display:block; flex:none; pointer-events:none}
+.star .ico{width:15px; height:15px; fill:currentColor}
+.close{display:grid; place-items:center; padding:0}
+.close .ico{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round}
+.gbtn{padding:0 !important}
+.gbtn .ico{width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.snd .ico{width:21px; height:21px; fill:currentColor; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.snd .ico path:last-child:not(:first-child){fill:none}
 .dur{position:absolute; right:10px; bottom:10px; font-size:12px; font-weight:600; padding:4px 9px; border-radius:999px;
   background:rgba(0,0,0,.45); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.2)}
 .fmt{position:absolute; left:10px; top:10px; font-size:11px; padding:3px 9px; border-radius:999px;
@@ -366,6 +374,7 @@ body.edit .fab{display:block}
 .card:hover .info h3.ov .t,.card:focus-visible .info h3.ov .t{transform:translateX(calc(var(--sx) * -1)); transition:transform calc(var(--dur) * 1s) linear .25s}
 .info .meta{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .tags,.tools{flex-wrap:nowrap; overflow:hidden}
+.tools{padding:6px 6px 4px; margin:6px -6px -4px} /* aire para que al subir el ícono con el mouse no se corte */
 .tag{flex:none; white-space:nowrap}
 .tool{flex:none}
 .tags{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
@@ -432,7 +441,7 @@ body.edit .fab{display:block}
 <!-- Modal del proyecto -->
 <div class="overlay" id="overlay" aria-hidden="true">
   <div class="panel glass" role="dialog" aria-modal="true">
-    <button class="close" id="close" aria-label="Cerrar">✕</button>
+    <button class="close" id="close" aria-label="Cerrar"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="mbody" id="mbody"></div>
   </div>
 </div>
@@ -440,7 +449,7 @@ body.edit .fab{display:block}
 <!-- Carpeta de cliente -->
 <div class="folder" id="folder" aria-hidden="true">
   <div class="fpanel glass" role="dialog" aria-modal="true">
-    <button class="close" id="fclose" aria-label="Cerrar">✕</button>
+    <button class="close" id="fclose" aria-label="Cerrar"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="fhead" id="fhead"></div>
     <div class="grid" id="fgrid"></div>
   </div>
@@ -570,7 +579,18 @@ function toolBadge(key, withName) {
     : h("span", { class: "tool", title: t.name, style: `background:${t.bg || "#222"};color:${t.fg || "#fff"}` }, t.abbr || t.name.slice(0, 2));
   return withName ? h("div", { class: "mtool" }, badge, t.name) : badge;
 }
-const playIcon = () => { const d = document.createElement("div"); d.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; return d.firstChild; };
+/* íconos en SVG (los símbolos de texto como ★ ✕ ‹ › se dibujan según la tipografía y quedaban corridos) */
+const ICONS = {
+  play: '<path d="M7 5v14l11-7z"/>',
+  star: '<path d="M12 2.8 14.9 9l6.7.8-5 4.6 1.4 6.7-6-3.4-6 3.4 1.4-6.7-5-4.6L9.1 9z"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  prev: '<path d="M15 5.5 9 12l6 6.5"/>',
+  next: '<path d="M9 5.5 15 12l-6 6.5"/>',
+  sndOn: '<path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18.2 6.5a8 8 0 0 1 0 11"/>',
+  sndOff: '<path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>'
+};
+const ico = name => { const d = document.createElement("div"); d.innerHTML = '<svg viewBox="0 0 24 24" class="ico" aria-hidden="true">' + ICONS[name] + "</svg>"; return d.firstChild; };
+const playIcon = () => ico("play");
 
 /* ---------- Cabecera ---------- */
 document.title = `${CONFIG.name} · ${CONFIG.title}`;
@@ -759,7 +779,7 @@ function renderCard(v, idx = 99) {
   const imgsAll = (v.images || []).filter(i => i && (i.src || i.video));
   const isVideo = !!(v.video || v.coverIsVideo || (!v.cover && imgsAll.length && imgsAll[0].video && !imgsAll.some(i => i.src)));
   if (isVideo) thumb.append(h("div", { class: "play" }, h("span", {}, playIcon())));
-  if (v.featured) thumb.append(h("span", { class: "star", title: "Destacado" }, "★"));
+  if (v.featured) thumb.append(h("span", { class: "star", title: "Destacado" }, ico("star")));
   if (v.duration) thumb.append(h("span", { class: "dur" }, v.duration));
   const shareBtn = h("button", { class: "thumb-share", type: "button", title: "Compartir proyecto", "aria-label": "Compartir " + v.title, onclick: e => { e.stopPropagation(); shareProject(v); } }, shareIcon());
   shareBtn.addEventListener("keydown", e => e.stopPropagation());
@@ -818,9 +838,9 @@ function lightbox(list, k) {
   };
   const close = () => { document.removeEventListener("keydown", key, true); el.remove(); };
   const el = h("div", { class: "lb", onclick: e => { if (e.target === el || e.target === img) close(); } }, img,
-    h("button", { class: "close", type: "button", "aria-label": "Cerrar imagen", onclick: close }, "✕"),
-    list.length > 1 ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => set(cur - 1) }, "‹") : null,
-    list.length > 1 ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => set(cur + 1) }, "›") : null, cnt);
+    h("button", { class: "close", type: "button", "aria-label": "Cerrar imagen", onclick: close }, ico("close")),
+    list.length > 1 ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => set(cur - 1) }, ico("prev")) : null,
+    list.length > 1 ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => set(cur + 1) }, ico("next")) : null, cnt);
   document.addEventListener("keydown", key, true);
   document.body.append(el); set(k);
 }
@@ -847,8 +867,8 @@ function gallery(v, o, pv, imgs, playerEl) {
   }
   const many = slides.length > 1;
   const stage = h("div", { class: "gstage" }, view,
-    many ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => show(cur - 1) }, "‹") : null,
-    many ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => show(cur + 1) }, "›") : null,
+    many ? h("button", { class: "gbtn l", type: "button", "aria-label": "Anterior", onclick: () => show(cur - 1) }, ico("prev")) : null,
+    many ? h("button", { class: "gbtn r", type: "button", "aria-label": "Siguiente", onclick: () => show(cur + 1) }, ico("next")) : null,
     many ? count : null);
   stage.addEventListener("pointerdown", e => { x0 = e.clientX; });
   stage.addEventListener("pointerup", e => { if (x0 != null && many && Math.abs(e.clientX - x0) > 50 && !isVid(slides[cur])) show(cur + (e.clientX < x0 ? 1 : -1)); x0 = null; });
@@ -1102,7 +1122,7 @@ else addEventListener("resize", layoutSoon);
   let on = true, ctx = null;
   try { on = localStorage.getItem(key) !== "0"; } catch (e) {}
   const AC = window.AudioContext || window.webkitAudioContext;
-  const paint = () => { btn.textContent = on ? "🔊" : "🔇"; btn.classList.toggle("off", !on); btn.setAttribute("aria-pressed", String(on)); btn.title = on ? "Sonido activado (tocá para silenciar)" : "Sonido silenciado (tocá para activar)"; };
+  const paint = () => { btn.replaceChildren(ico(on ? "sndOn" : "sndOff")); btn.classList.toggle("off", !on); btn.setAttribute("aria-pressed", String(on)); btn.title = on ? "Sonido activado (tocá para silenciar)" : "Sonido silenciado (tocá para activar)"; };
   /* una nota: frecuencia inicial → final, con ataque rápido y caída suave */
   const tone = (f0, f1, dur, vol, type, at = 0) => {
     const t = ctx.currentTime + at, o = ctx.createOscillator(), g = ctx.createGain();
