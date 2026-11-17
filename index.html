@@ -594,6 +594,16 @@ const ICONS = {
 const ico = name => { const d = document.createElement("div"); d.innerHTML = '<svg viewBox="0 0 24 24" class="ico" aria-hidden="true">' + ICONS[name] + "</svg>"; return d.firstChild; };
 const playIcon = () => ico("play");
 
+/* duración: siempre como m:ss o h:mm:ss (con horas solo si las tiene), y solo en proyectos con video */
+const hasVid = v => !!(v.video || (v.images || []).some(i => i && i.video));
+function fmtDur(raw) {
+  const t = String(raw || "").trim(); if (!t) return "";
+  const m = t.match(/^(?:(\d+):)?(\d+):(\d{1,2})$/); if (!m) return t;
+  const hh = +(m[1] || 0), mm = +m[2], ss = +m[3];
+  return hh ? hh + ":" + String(mm).padStart(2, "0") + ":" + String(ss).padStart(2, "0") : mm + ":" + String(ss).padStart(2, "0");
+}
+const durOf = v => hasVid(v) ? fmtDur(v.duration) : "";
+
 /* ---------- Cabecera ---------- */
 document.title = `${CONFIG.name} · ${CONFIG.title}`;
 $("#heroName").textContent = CONFIG.name;
@@ -782,7 +792,7 @@ function renderCard(v, idx = 99) {
   const isVideo = !!(v.video || v.coverIsVideo || (!v.cover && imgsAll.length && imgsAll[0].video && !imgsAll.some(i => i.src)));
   if (isVideo) thumb.append(h("div", { class: "play" }, h("span", {}, playIcon())));
   if (v.featured) thumb.append(h("span", { class: "star", title: "Destacado" }, ico("star")));
-  if (v.duration) thumb.append(h("span", { class: "dur" }, v.duration));
+  if (durOf(v)) thumb.append(h("span", { class: "dur" }, durOf(v)));
   const shareBtn = h("button", { class: "thumb-share", type: "button", title: "Compartir proyecto", "aria-label": "Compartir " + v.title, onclick: e => { e.stopPropagation(); shareProject(v); } }, shareIcon());
   shareBtn.addEventListener("keydown", e => e.stopPropagation());
   thumb.append(shareBtn);
@@ -978,7 +988,7 @@ function openModal(v) {
     h("div", { class: "meta" }, cats(v).join(" · ")),
     h("div", { class: "facts" },
       fact("Cliente", v.client), dateParts(v) ? fact("Fecha", fmtDate(v, true)) : fact("Año", v.year ? String(v.year) : ""),
-      fact("Duración", v.duration)),
+      fact("Duración", durOf(v))),
     paras.length ? h("div", { class: "desc" }, paras) : null,
     (v.tools || []).length ? h("div", { class: "mtools" }, v.tools.map(t => toolBadge(t, true))) : null,
     h("div", { class: "mactions" }, h("button", { class: "btn share-project", type: "button", onclick: () => shareProject(v) }, shareIcon(), "Compartir proyecto"))
