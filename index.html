@@ -365,6 +365,8 @@ body.edit .fab{display:block}
 /* ---------- Tarjetas de tamaño fijo + títulos largos ---------- */
 :root{--info-h:142px}
 .card{height:calc(var(--th) + var(--info-h) + 20px); overflow:hidden}
+.card.v{height:auto}
+.card.s{height:calc(var(--th) + 20px)} /* cuadradas: la info va al costado, no hace falta el alto de la info de abajo */
 .card.h{display:flex; flex-direction:column}
 .card.h .info{flex:1; min-height:0; overflow:hidden}
 .info h3{white-space:nowrap; overflow:hidden; line-height:1.3}
