@@ -1162,18 +1162,16 @@ renderFilters(); renderGrid();
         if (started) return;
         started = true;
         const dur = Math.min(1400, 650 + n * 30), ease = t => t >= 1 ? 1 : 1 - Math.pow(1 - t, 2); // rápido y con final suave
-        setTimeout(() => {
-          const t0 = performance.now();
-          const tick = now => {
-            const t = Math.min(1, (now - t0) / dur);
-            num.textContent = Math.round(n * ease(t));
-            if (t < 1) requestAnimationFrame(tick); else num.textContent = n;
-          };
-          requestAnimationFrame(tick);
-        }, 120);
+        const t0 = performance.now();
+        const tick = now => {
+          const t = Math.min(1, (now - t0) / dur);
+          num.textContent = Math.round(n * ease(t));
+          if (t < 1) requestAnimationFrame(tick); else num.textContent = n;
+        };
+        requestAnimationFrame(tick);
       };
-      box.addEventListener("animationend", e => { if (e.target === box) start(); }, { once: true });
-      setTimeout(start, 3500); // respaldo por si la animación no dispara el evento
+      box.addEventListener("animationstart", e => { if (e.target === box) start(); }, { once: true }); // empieza a contar apenas aparece, sin esperar a que termine el fade
+      setTimeout(start, 1000); // respaldo por si la animación no dispara el evento
     }
   }
 }
