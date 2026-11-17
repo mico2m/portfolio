@@ -755,8 +755,10 @@ function renderCard(v, idx = 99) {
   const thumb = h("div", { class: "thumb " + o });
   if (cover) { thumb.append(coverImg(v, v.title, idx < 4)); if (v.lqip) thumb.style.backgroundImage = "url(" + v.lqip + ")"; } // las 4 primeras cargan de inmediato
   else thumb.style.background = gradientFor(v.title);
-  thumb.append(h("div", { class: "play" }, h("span", {}, playIcon())));
-  if (o !== "h") thumb.append(h("span", { class: "fmt" }, ORI_LABEL[o]));
+  // el ícono de play solo va si el proyecto es un video (o si no hay fotos y lo primero de la galería es un video)
+  const imgsAll = (v.images || []).filter(i => i && (i.src || i.video));
+  const isVideo = !!(v.video || v.coverIsVideo || (!v.cover && imgsAll.length && imgsAll[0].video && !imgsAll.some(i => i.src)));
+  if (isVideo) thumb.append(h("div", { class: "play" }, h("span", {}, playIcon())));
   if (v.featured) thumb.append(h("span", { class: "star", title: "Destacado" }, "★"));
   if (v.duration) thumb.append(h("span", { class: "dur" }, v.duration));
   const shareBtn = h("button", { class: "thumb-share", type: "button", title: "Compartir proyecto", "aria-label": "Compartir " + v.title, onclick: e => { e.stopPropagation(); shareProject(v); } }, shareIcon());
@@ -954,7 +956,7 @@ function openModal(v) {
     h("div", { class: "meta" }, cats(v).join(" · ")),
     h("div", { class: "facts" },
       fact("Cliente", v.client), dateParts(v) ? fact("Fecha", fmtDate(v, true)) : fact("Año", v.year ? String(v.year) : ""),
-      fact("Duración", v.duration), fact("Formato", ORI_LABEL[o])),
+      fact("Duración", v.duration)),
     paras.length ? h("div", { class: "desc" }, paras) : null,
     (v.tools || []).length ? h("div", { class: "mtools" }, v.tools.map(t => toolBadge(t, true))) : null,
     h("div", { class: "mactions" }, h("button", { class: "btn share-project", type: "button", onclick: () => shareProject(v) }, shareIcon(), "Compartir proyecto"))
