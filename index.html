@@ -91,7 +91,7 @@ nav a:hover{background:rgba(255,255,255,.14)}
 .chip small{opacity:.6; margin-left:4px}
 
 /* masonry: mezcla verticales y horizontales sin huecos */
-.grid{display:grid; grid-template-columns:repeat(var(--cols,4),minmax(0,1fr)); gap:22px; align-items:start; padding-bottom:60px;
+.grid{display:grid; grid-template-columns:repeat(var(--cols,4),minmax(0,1fr)); gap:22px; align-items:start; align-content:start; padding-bottom:60px;
   --cols:4; --th:200px} /* --cols y --th (alto común de las portadas) los calcula el script según el ancho de pantalla */
 .card{min-width:0}
 /* horizontales: portada arriba, info abajo. reels y cuadrados: misma altura de portada, con la info al costado */
