@@ -489,17 +489,27 @@ async function publish() {
     const br = CF.branch.trim() || "main";
     const ref = await gh("/git/ref/heads/" + encodeURIComponent(br)), parent = ref.object.sha;
     const baseTree = (await gh("/git/commits/" + parent)).tree.sha;
-    const tree = [];
-    for (const f of files) {
-      const bytes = typeof f.data === "string" ? new TextEncoder().encode(f.data) : f.data;
-      const bl = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: b64(bytes), encoding: "base64" }) });
-      tree.push({ path: f.path, mode: "100644", type: "blob", sha: bl.sha });
-    }
+    /* las imágenes llevan un código en el nombre: si ya están en el repo, no se vuelven a subir */
+    let have = new Set();
+    try { have = new Set(((await gh("/git/trees/" + baseTree + "?recursive=1")).tree || []).map(t => t.path)); } catch (e) {}
+    const todo = files.filter(f => !(have.has(f.path) && /^(covers|gallery|assets)\//.test(f.path)));
+    const tree = new Array(todo.length); let done = 0, next = 0;
+    bt.textContent = "Subiendo 0/" + todo.length + "…";
+    const worker = async () => {   // varias subidas a la vez en vez de una por una
+      while (next < todo.length) {
+        const k = next++, f = todo[k];
+        const bytes = typeof f.data === "string" ? new TextEncoder().encode(f.data) : f.data;
+        const bl = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: b64(bytes), encoding: "base64" }) });
+        tree[k] = { path: f.path, mode: "100644", type: "blob", sha: bl.sha };
+        bt.textContent = "Subiendo " + (++done) + "/" + todo.length + "…";
+      }
+    };
+    await Promise.all(Array.from({ length: Math.min(6, todo.length) }, worker));
     const nt = await gh("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: baseTree, tree }) });
     if (nt.sha === baseTree) { toast("No había cambios: tu sitio ya estaba al día."); return; }
     const cm = await gh("/git/commits", { method: "POST", body: JSON.stringify({ message: "Actualizar portfolio desde el builder", tree: nt.sha, parents: [parent] }) });
     await gh("/git/refs/heads/" + encodeURIComponent(br), { method: "PATCH", body: JSON.stringify({ sha: cm.sha }) });
-    { const nImg = files.filter(f => !/^data/.test(f.path)).length; toast("¡Publicado! En menos de un minuto se ve en tu sitio" + (nImg ? " (" + nImg + (nImg === 1 ? " imagen nueva" : " imágenes nuevas") + ")." : ".")); }
+    { const nImg = todo.filter(f => !/^data/.test(f.path)).length; toast("¡Publicado! En menos de un minuto se ve en tu sitio" + (nImg ? " (" + nImg + (nImg === 1 ? " imagen nueva" : " imágenes nuevas") + ")." : ".")); }
   } catch (e) { console.error(e); toast("No se pudo publicar: " + e.message); }
   finally { bt.disabled = false; bt.textContent = t0; }
 }
