@@ -471,6 +471,23 @@ window.PORTFOLIO = {
       "coverSmall": "covers/ay-que-miedo-cdfba739-s.webp",
       "coverSmallW": 180,
       "lqip": "data:image/webp;base64,UklGRgoBAABXRUJQVlA4IP4AAADQBQCdASoYACsAPwFys1MrJqSipWsxYCAJZgALACXqe97xX8OnrJ/JVBxFZTNil69iWOIaDYAAAP7wQef/6yeyoQBUabgq6a/wyMUkAL9B7GB7dBmnRhQzrrgNGI7i5IQSuWLuY30VT/b6WolqaPIVJC+GsztgQBvYDSF6FeGX2dd0S7FhBipGh6W0/rKtXpOIfw4SbeInxVkj2nCtI9QZSr6Zo9cLrdRivawxR7UWrdAw8zdmY9w/c787b5qsg+ngl8VkKrFUHrz/eIvxXOEhD+oi7e4R7sDxFL8Y0ARfeJdjbclt8cK5H1P5ygawC9nGDmInCPjGDcVulQAAAA=="
+    },
+    {
+      "title": "LA HISTORIA DE SAN LORENZO",
+      "client": "DE POTRERO",
+      "category": [
+        "Reels"
+      ],
+      "year": 2026,
+      "date": "2026-11-18",
+      "duration": "",
+      "orientation": "vertical",
+      "video": "https://drive.google.com/file/d/10X97pI-nf1SeJJ1G0_KkfYgJX_TleNI3/view?usp=drivesdk",
+      "cover": "",
+      "tools": [
+        "capcut"
+      ],
+      "description": ""
     }
   ],
   "tools": {}
