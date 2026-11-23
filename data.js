@@ -13,6 +13,7 @@ window.PORTFOLIO = {
     "clientGroups": true,
     "clients": [],
     "title": "Editor de video",
+    "showCount": false,
     "also": [
       {
         "label": "Modelado y Animación 3D",

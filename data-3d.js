@@ -13,6 +13,7 @@ window.PORTFOLIO = {
     "clientGroups": true,
     "clients": [],
     "title": "Modelado y Animación 3D",
+    "showCount": false,
     "also": [],
     "backUrl": "/",
     "backLabel": "← Edición de video",
