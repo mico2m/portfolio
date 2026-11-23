@@ -335,6 +335,35 @@ body.edit .fab{display:block}
 .count .clbl{font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:1.4}
 
 /* ---------- «También hago esto» (enlaces a otras páginas) ---------- */
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.avail{display:inline-flex; align-items:center; gap:9px; margin-top:18px; font-size:13px; color:var(--text); padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18)}
+.avail i{width:8px; height:8px; border-radius:50%; background:#5df0a0; box-shadow:0 0 0 0 rgba(93,240,160,.6); animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(93,240,160,0)} 100%{box-shadow:0 0 0 0 rgba(93,240,160,0)}}
+.cta{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:24px}
+.cta a,.crow a{display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:999px; font-size:15px; font-weight:600; color:#fff; text-decoration:none; transition:transform .3s var(--ease), box-shadow .3s}
+.cta a.main,.crow a.main{background:linear-gradient(135deg,#8b6bff,#ff6fa5); box-shadow:0 10px 30px -10px rgba(160,110,255,.8)}
+.cta a.ghost,.crow a.ghost{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); font-weight:500}
+.cta a:hover,.crow a:hover{transform:translateY(-3px)}
+.sec{max-width:980px; margin:72px auto 0}
+.sec .kick{font-size:12px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 18px; text-align:center}
+.about{padding:28px 30px; border-radius:28px; display:grid; grid-template-columns:1.6fr 1fr; gap:28px; align-items:start}
+.about p{margin:0; font-size:17px; line-height:1.65; color:var(--text); white-space:pre-line}
+.about dl{margin:0; display:grid; gap:12px}
+.about dt{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.about dd{margin:2px 0 0; font-size:15px}
+.about.solo{grid-template-columns:1fr}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px}
+.card2{padding:22px 24px; border-radius:24px}
+.card2 b{display:block; font-size:17px; margin-bottom:6px}
+.card2 p{margin:0; color:var(--muted); font-size:14.5px; line-height:1.55}
+.card2 q{display:block; quotes:none; font-size:16px; line-height:1.55}
+.card2 small{display:block; margin-top:14px; color:var(--muted); font-size:13px}
+.card2 small strong{color:var(--text); font-weight:600}
+.contact{padding:44px 24px; border-radius:32px; text-align:center}
+.contact h2{margin:0 0 10px; font-size:clamp(26px,4vw,38px); letter-spacing:-.03em}
+.contact p{margin:0 auto 24px; max-width:520px; color:var(--muted); line-height:1.55}
+.crow{display:flex; flex-wrap:wrap; gap:12px; justify-content:center}
+@media (max-width:760px){.about{grid-template-columns:1fr; padding:22px}}
 .also{margin:64px auto 8px; text-align:center}
 .also .kick{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:16px}
 .also .row{display:flex; flex-wrap:wrap; gap:14px; justify-content:center}
@@ -430,13 +459,20 @@ body.edit .fab{display:block}
     <h1 class="rise" style="--d:.2s" id="heroName"></h1>
     <div class="role rise" style="--d:.32s" id="heroRole"></div>
     <p class="rise" style="--d:.44s" id="heroText"></p>
+    <div class="avail rise" style="--d:.48s" id="avail" hidden></div>
+    <div class="cta rise" style="--d:.52s" id="cta" hidden></div>
     <div class="socials rise" style="--d:.54s" id="socials"></div>
     <div class="count rise" style="--d:.54s" id="count" hidden><span class="cnum" id="cnum" aria-hidden="true">0</span><span class="clbl" id="clbl">Proyectos</span></div>
   </section>
+  <h2 class="sr">Proyectos</h2>
   <div class="filters rise" style="--d:.6s" id="filters"></div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>No hay videos en esta categoría todavía.</div>
+  <section class="sec" id="about" hidden><h2 class="kick"></h2><div class="about glass"><p id="aboutText"></p><dl id="aboutFacts"></dl></div></section>
+  <section class="sec" id="services" hidden><h2 class="kick"></h2><div class="cards" id="servicesRow"></div></section>
+  <section class="sec" id="quotes" hidden><h2 class="kick"></h2><div class="cards" id="quotesRow"></div></section>
   <section class="also rise" style="--d:.2s" id="also" hidden><div class="kick" id="alsoTitle"></div><div class="row" id="alsoRow"></div></section>
+  <section class="sec contact glass" id="contact" hidden><h2 id="contactTitle"></h2><p id="contactText"></p><div class="crow" id="contactRow"></div></section>
 </main>
 <footer id="footer"></footer>
 
@@ -479,7 +515,7 @@ body.edit .fab{display:block}
    ===================================================================== */
 const P = window.PORTFOLIO || {};
 if (!window.PORTFOLIO) { const e = document.getElementById("empty"); if (e) { e.hidden = false; e.textContent = "No se encontró data.js: tiene que estar en la misma carpeta que index.html."; } }
-const CONFIG = Object.assign({ name: "Tu Nombre", title: "", tagline: "", links: [], socials: [], also: [] }, P.config);
+const CONFIG = Object.assign({ name: "Tu Nombre", title: "", tagline: "", links: [], socials: [], also: [], aboutFacts: [], services: [], quotes: [] }, P.config);
 
 /* =====================================================================
    2) PROGRAMAS — la clave es lo que pones en "tools" de cada video.
@@ -1207,6 +1243,40 @@ renderFilters(); renderGrid();
       box.addEventListener("animationstart", e => { if (e.target === box) start(); }, { once: true }); // empieza a contar apenas aparece, sin esperar a que termine el fade
       setTimeout(start, 1000); // respaldo por si la animación no dispara el evento
     }
+  }
+}
+
+/* ---------- Secciones de texto: disponibilidad, contacto, sobre mí, qué hago, opiniones ---------- */
+{
+  const clean = a => (Array.isArray(a) ? a : []).filter(x => x && Object.values(x).some(t => String(t || "").trim()));
+  const mail = (CONFIG.socials || []).find(x => x.type === "email");
+  const ctaUrl = (CONFIG.ctaUrl || "").trim() || (mail ? (/^mailto:/.test(mail.url) ? mail.url : "mailto:" + mail.url) : "");
+  const ctaLabel = (CONFIG.ctaLabel || "").trim() || "Contactame";
+  const sec = (id, title, ok) => { const e = $("#" + id); if (!ok) return null; const k = e.querySelector(".kick"); if (k) k.textContent = title; e.hidden = false; return e; };
+  if ((CONFIG.availability || "").trim()) { const a = $("#avail"); a.append(h("i"), CONFIG.availability.trim()); a.hidden = false; }
+  const about = (CONFIG.about || "").trim(), facts = clean(CONFIG.aboutFacts).filter(f => f.label && f.value);
+  if (ctaUrl || about) {
+    const c = $("#cta");
+    if (ctaUrl) c.append(h("a", { class: "main", href: ctaUrl, target: /^https?:/.test(ctaUrl) ? "_blank" : null, rel: "noopener" }, ctaLabel));
+    if (about) c.append(h("a", { class: "ghost", href: "#about", onclick: e => { e.preventDefault(); $("#about").scrollIntoView({ behavior: "smooth", block: "center" }); } }, (CONFIG.aboutTitle || "Sobre mí") + " ↓"));
+    c.hidden = false;
+  }
+  if (sec("about", CONFIG.aboutTitle || "Sobre mí", about || facts.length)) {
+    $("#aboutText").textContent = about;
+    facts.forEach(f => $("#aboutFacts").append(h("div", {}, h("dt", {}, f.label), h("dd", {}, f.value))));
+    if (!about) $("#aboutText").remove(); if (!facts.length) { $("#aboutFacts").remove(); $("#about .about").classList.add("solo"); }
+  }
+  const svc = clean(CONFIG.services).filter(x => x.title);
+  if (sec("services", CONFIG.servicesTitle || "Qué hago", svc.length)) svc.forEach(x => $("#servicesRow").append(h("div", { class: "card2 glass" }, h("b", {}, x.title), x.desc ? h("p", {}, x.desc) : null)));
+  const qs = clean(CONFIG.quotes).filter(x => x.text);
+  if (sec("quotes", CONFIG.quotesTitle || "Qué dicen", qs.length)) qs.forEach(x => $("#quotesRow").append(h("div", { class: "card2 glass" }, h("q", {}, "“" + x.text.trim() + "”"), (x.author || x.role) ? h("small", {}, h("strong", {}, x.author || ""), x.author && x.role ? " · " : "", x.role || "") : null)));
+  const cv = (CONFIG.cvUrl || "").trim();
+  if (ctaUrl || cv) {
+    $("#contactTitle").textContent = (CONFIG.contactTitle || "").trim() || "¿Trabajamos juntos?";
+    const ct = (CONFIG.contactText || "").trim(); if (ct) $("#contactText").textContent = ct; else $("#contactText").remove();
+    if (ctaUrl) $("#contactRow").append(h("a", { class: "main", href: ctaUrl, target: /^https?:/.test(ctaUrl) ? "_blank" : null, rel: "noopener" }, ctaLabel));
+    if (cv) $("#contactRow").append(h("a", { class: "ghost", href: cv, target: "_blank", rel: "noopener" }, (CONFIG.cvLabel || "").trim() || "Ver mi CV"));
+    $("#contact").hidden = false;
   }
 }
 
