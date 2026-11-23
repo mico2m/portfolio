@@ -335,6 +335,8 @@ body.edit .fab{display:block}
 .count .clbl{font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:1.4}
 
 /* ---------- «También hago esto» (enlaces a otras páginas) ---------- */
+.chip.pop{animation:chipIn .45s var(--ease) both}
+@keyframes chipIn{from{opacity:0; transform:translateY(8px) scale(.92)}to{opacity:1; transform:none}}
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 .avail{display:inline-flex; align-items:center; gap:9px; margin-top:18px; font-size:13px; color:var(--text); padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18)}
 .avail i{width:8px; height:8px; border-radius:50%; background:#5df0a0; box-shadow:0 0 0 0 rgba(93,240,160,.6); animation:pulse 2s infinite}
@@ -815,8 +817,12 @@ function renderFilters() {
   const mk = (label, n, extra = "") => h("button", { class: "chip" + extra + (active === label ? " on" : ""), onclick: () => { active = label; renderFilters(); swapGrid(); panToWorks(); } }, extra ? "★ " + label : label, h("small", {}, n));
   if (hasFeat) box.append(mk(FEAT, VIDEOS.filter(v => v.featured).length, " feat"));
   if (showAll) box.append(mk("Todos", VIDEOS.length));
-  allCats.forEach(c => box.append(mk(c, VIDEOS.filter(v => cats(v).includes(c)).length)));
+  // las subcategorías (Humor, Reels, Documental…) aparecen recién al tocar «Todos» (o una de ellas) y se esconden al volver a «Más relevantes»
+  const showSubs = !(hasFeat && active === FEAT);
+  if (showSubs) allCats.forEach((c, i) => { const b = mk(c, VIDEOS.filter(v => cats(v).includes(c)).length); if (!subsShown) { b.classList.add("pop"); b.style.animationDelay = (i * 45) + "ms"; } box.append(b); });
+  subsShown = showSubs;
 }
+let subsShown = false;
 
 function renderCard(v, idx = 99) {
   const o = oriKey(v), pv = parseVideo(v.video), cover = v.cover || (pv && pv.thumb);
