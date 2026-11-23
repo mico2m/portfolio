@@ -22,6 +22,9 @@ window.PORTFOLIO = {
     ],
     "alsoTitle": "También hago esto",
     "tagline": "Adaptado de cualquier tipo de contenido.",
+    "aboutFacts": [],
+    "services": [],
+    "quotes": [],
     "links": [],
     "socials": [
       {
@@ -471,27 +474,6 @@ window.PORTFOLIO = {
       "coverSmall": "covers/ay-que-miedo-cdfba739-s.webp",
       "coverSmallW": 180,
       "lqip": "data:image/webp;base64,UklGRgoBAABXRUJQVlA4IP4AAADQBQCdASoYACsAPwFys1MrJqSipWsxYCAJZgALACXqe97xX8OnrJ/JVBxFZTNil69iWOIaDYAAAP7wQef/6yeyoQBUabgq6a/wyMUkAL9B7GB7dBmnRhQzrrgNGI7i5IQSuWLuY30VT/b6WolqaPIVJC+GsztgQBvYDSF6FeGX2dd0S7FhBipGh6W0/rKtXpOIfw4SbeInxVkj2nCtI9QZSr6Zo9cLrdRivawxR7UWrdAw8zdmY9w/c787b5qsg+ngl8VkKrFUHrz/eIvxXOEhD+oi7e4R7sDxFL8Y0ARfeJdjbclt8cK5H1P5ygawC9nGDmInCPjGDcVulQAAAA=="
-    },
-    {
-      "title": "LA HISTORIA DE SAN LORENZO",
-      "client": "DE POTRERO",
-      "category": [
-        "Reels"
-      ],
-      "year": 2026,
-      "date": "2026-11-18",
-      "duration": "",
-      "orientation": "vertical",
-      "video": "https://drive.google.com/file/d/10X97pI-nf1SeJJ1G0_KkfYgJX_TleNI3/view?usp=drivesdk",
-      "cover": "covers/la-historia-de-san-lorenzo-75790a16-m.jpg",
-      "tools": [
-        "capcut"
-      ],
-      "description": "",
-      "coverW": 360,
-      "coverSmall": "covers/la-historia-de-san-lorenzo-75790a16-s.jpg",
-      "coverSmallW": 180,
-      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAKwAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/8AAEQgAKwAYAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/bAEMADAwMDAwMFAwMFB0UFBQdJx0dHR0nMScnJycnMTsxMTExMTE7Ozs7Ozs7O0dHR0dHR1NTU1NTXV1dXV1dXV1dXf/bAEMBDg8PGBYYKBYWKGFCNkJhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYf/dAAQAAv/aAAwDAQACEQMRAD8AzbSBXUbga1RaqGLY6VFZxMQmOAK0kw8bBGDHuQaxNTnbmHajsB1J6dayPn966i8j2q59sGsTYvrTQH//0I2lljtxDEdsjISG6DsMZ7ckVnyea6/6PIEABLDJOQckdevTp0/Or4tY7y2WGVjleRjjP59qY2m4mACGRTglmIxz94EdfXGOuayTNGRQFlSSNpN6lcjHIH06/lUGF9a0JLW2srd0gUITnJA68nH86x9w9aQz/9GtZSfJuB6CtMShQSTXO2bMOh7VbLEx9elYmpJeykxsT0IrC3irV67cDNZuTTQmf//Z"
     }
   ],
   "tools": {}
