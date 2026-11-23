@@ -498,8 +498,21 @@ async function publish() {
     const ref = await gh("/git/ref/heads/" + encodeURIComponent(br)), parent = ref.object.sha;
     const baseTree = (await gh("/git/commits/" + parent)).tree.sha;
     /* las imágenes llevan un código en el nombre: si ya están en el repo, no se vuelven a subir */
-    let have = new Set();
-    try { have = new Set(((await gh("/git/trees/" + baseTree + "?recursive=1")).tree || []).map(t => t.path)); } catch (e) {}
+    let have = new Set(), entries = [];
+    try { entries = (await gh("/git/trees/" + baseTree + "?recursive=1")).tree || []; have = new Set(entries.map(t => t.path)); } catch (e) {}
+    /* seguro anti-pisadas: si lo publicado tiene proyectos que tu builder no tiene (por ejemplo un borrador viejo), avisa antes de borrarlos */
+    try {
+      const titlesOf = txt => { const w = {}; new Function("window", txt)(w); return ((w.PORTFOLIO || {}).videos || []).map(v => (v.title || "").trim()).filter(Boolean); };
+      const lost = [];
+      for (const f of files.filter(f => /^data(-3d)?\.js$/.test(f.path))) {
+        const e = entries.find(t => t.path === f.path); if (!e) continue;
+        const bl = await gh("/git/blobs/" + e.sha);
+        const raw = atob((bl.content || "").replace(/\n/g, "")), txt = new TextDecoder().decode(Uint8Array.from(raw, c => c.charCodeAt(0)));
+        const mine = new Set(titlesOf(f.data));
+        titlesOf(txt).filter(t => !mine.has(t)).forEach(t => lost.push(t + (f.path === "data-3d.js" ? " (3D)" : "")));
+      }
+      if (lost.length && !confirm("Ojo: en tu sitio publicado hay " + lost.length + (lost.length === 1 ? " proyecto que no está" : " proyectos que no están") + " en este builder, y se van a BORRAR si publicás:\n\n• " + lost.slice(0, 12).join("\n• ") + (lost.length > 12 ? "\n• …" : "") + "\n\n¿Los borraste a propósito? Aceptar = publicar igual. Cancelar = no publicar (después podés usar «Traer lo publicado»).")) { toast("Publicación cancelada: no se tocó tu sitio."); return; }
+    } catch (e) { console.warn("no pude comparar con lo publicado", e); }
     const todo = files.filter(f => !(have.has(f.path) && /^(covers|gallery|assets)\//.test(f.path)));
     const tree = new Array(todo.length); let done = 0, next = 0;
     bt.textContent = "Subiendo 0/" + todo.length + "…";
@@ -655,8 +668,8 @@ function secPerfil() {
     field("Rol o título", bind(h("input", { type: "text", placeholder: "Editor de video" }), c, "title")),
     field("Frase de presentación", bind(h("textarea", { rows: 3 }), c, "tagline")),
     h("div", { class: "f" }, h("label", { class: "ck", style: "display:inline-flex" },
-      h("input", { type: "checkbox", checked: c.showCount !== false, onchange: e => { c.showCount = e.target.checked; changed(); } }),
-      "Mostrar el contador animado de proyectos")));
+      h("input", { type: "checkbox", checked: c.showCount !== false, onchange: e => { c.showCount = e.target.checked; const o = getPage(curPage === "main" ? "d3" : "main"); if (o) o.config.showCount = e.target.checked; touched.d3 = true; changed(); } }),
+      "Mostrar el contador animado de proyectos (en las dos páginas)")));
 }
 /* textos de la página: todo es opcional; lo que queda vacío no se muestra */
 function listEditor(c, key, blank, rowFn, addLabel) {
