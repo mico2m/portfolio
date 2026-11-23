@@ -335,8 +335,14 @@ body.edit .fab{display:block}
 .count .clbl{font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:1.4}
 
 /* ---------- «También hago esto» (enlaces a otras páginas) ---------- */
-.chip.pop{animation:chipIn .45s var(--ease) both}
-@keyframes chipIn{from{opacity:0; transform:translateY(8px) scale(.92)}to{opacity:1; transform:none}}
+.filters{flex-direction:column; align-items:center; gap:0}
+.frow,.fin{display:flex; flex-wrap:wrap; justify-content:center; gap:10px}
+.fsubs{display:grid; grid-template-rows:0fr; opacity:0; visibility:hidden; margin-top:0; transition:grid-template-rows .6s var(--ease), opacity .4s var(--ease), margin-top .6s var(--ease), visibility 0s .6s}
+.fsubs.open{grid-template-rows:1fr; opacity:1; visibility:visible; margin-top:14px; transition:grid-template-rows .6s var(--ease), opacity .5s var(--ease) .05s, margin-top .6s var(--ease), visibility 0s}
+.fin{min-height:0; overflow:hidden; padding:6px 8px; margin:-6px -8px}
+.fsubs .chip{opacity:0; transform:translateY(-10px) scale(.94); transition:opacity .35s var(--ease), transform .45s var(--ease), background .25s, border-color .25s, box-shadow .25s}
+.fsubs.open .chip{opacity:1; transform:none; transition-delay:calc(var(--i) * 55ms + 120ms), calc(var(--i) * 55ms + 120ms), 0s, 0s, 0s}
+@media (prefers-reduced-motion:reduce){.fsubs,.fsubs .chip{transition:none !important}}
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 .avail{display:inline-flex; align-items:center; gap:9px; margin-top:18px; font-size:13px; color:var(--text); padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18)}
 .avail i{width:8px; height:8px; border-radius:50%; background:#5df0a0; box-shadow:0 0 0 0 rgba(93,240,160,.6); animation:pulse 2s infinite}
@@ -812,17 +818,27 @@ function panToWorks() {
   panRaf = requestAnimationFrame(step);
 }
 
+/* fila de arriba: «Más relevantes» y «Todos», centradas. Debajo, en otra fila, las subcategorías: se despliegan con una animación al tocar «Todos». Los botones se arman una sola vez para que las transiciones sean suaves */
+let fChips = null;
 function renderFilters() {
-  const box = $("#filters"); box.replaceChildren();
-  const mk = (label, n, extra = "") => h("button", { class: "chip" + extra + (active === label ? " on" : ""), onclick: () => { active = label; renderFilters(); swapGrid(); panToWorks(); } }, extra ? "★ " + label : label, h("small", {}, n));
-  if (hasFeat) box.append(mk(FEAT, VIDEOS.filter(v => v.featured).length, " feat"));
-  if (showAll) box.append(mk("Todos", VIDEOS.length));
-  // las subcategorías (Humor, Reels, Documental…) aparecen recién al tocar «Todos» (o una de ellas) y se esconden al volver a «Más relevantes»
-  const showSubs = !(hasFeat && active === FEAT);
-  if (showSubs) allCats.forEach((c, i) => { const b = mk(c, VIDEOS.filter(v => cats(v).includes(c)).length); if (!subsShown) { b.classList.add("pop"); b.style.animationDelay = (i * 45) + "ms"; } box.append(b); });
-  subsShown = showSubs;
+  const box = $("#filters");
+  if (!fChips) {
+    fChips = [];
+    const mk = (label, n, extra = "", i = 0) => {
+      const b = h("button", { class: "chip" + extra, style: "--i:" + i, onclick: () => { active = label; renderFilters(); swapGrid(); panToWorks(); } }, extra ? "★ " + label : label, h("small", {}, n));
+      fChips.push({ label, b }); return b;
+    };
+    const top = h("div", { class: "frow" }), subs = h("div", { class: "fin" });
+    if (hasFeat) top.append(mk(FEAT, VIDEOS.filter(v => v.featured).length, " feat"));
+    if (showAll) top.append(mk("Todos", VIDEOS.length));
+    allCats.forEach((c, i) => subs.append(mk(c, VIDEOS.filter(v => cats(v).includes(c)).length, "", i)));
+    box.replaceChildren(top, h("div", { class: "fsubs", id: "fsubs" }, subs));
+  }
+  fChips.forEach(c => c.b.classList.toggle("on", active === c.label));
+  // las subcategorías aparecen recién al tocar «Todos» (o una de ellas) y se pliegan al volver a «Más relevantes»
+  const showSubs = !(hasFeat && active === FEAT) && allCats.length > 0;
+  const fs = $("#fsubs"); fs.classList.toggle("open", showSubs); fs.inert = !showSubs;
 }
-let subsShown = false;
 
 function renderCard(v, idx = 99) {
   const o = oriKey(v), pv = parseVideo(v.video), cover = v.cover || (pv && pv.thumb);
